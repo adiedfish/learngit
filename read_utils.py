@@ -218,6 +218,7 @@ def build_one_hot_labels(ip_num):
 		print("ip_dic done load")
 
 	row_cout = 0
+	no_key_cout = 0
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
 		for row in csv_file:
@@ -225,7 +226,7 @@ def build_one_hot_labels(ip_num):
 			if row[12] in class_dir:
 				one_hot_labels[source_index][class_dir[row[12]]] = 1
 			else:
-				print("nokey")
+				no_key_cout += 1
 			row_cout += 1
 			if row_cout%100 == 0: 
 				sys.stdout.write("%d rows done"%row_cout)
@@ -233,6 +234,7 @@ def build_one_hot_labels(ip_num):
 				sys.stdout.flush()
 		sys.stdout.write("%d rows done"%row_cout)
 		sys.stdout.flush()
+	print("no key num :%d"%no_key_cout)
 	with open(labels_save_filename,'w+') as f:
 		pkl.dump(one_hot_labels,f)
 		print("done")
