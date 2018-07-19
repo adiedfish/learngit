@@ -128,9 +128,9 @@ def build_graph(filname):
 	
 	return i
 #下面已经用过一次了
-#pre_process(loadpath+load_filename)
+pre_process(loadpath+load_filename)
 
-#ip_num = build_graph(save_filename)
+ip_num = build_graph(save_filename)
 
 
 '''
@@ -197,10 +197,10 @@ def build_features(ip_num, features_num):
 		print("done")
 
 
-#build_features(ip_num,50)
+build_features(ip_num,50)
 
 
-def build_one_hot_labels(ip_num, 3):
+def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist,anomaly-spam
 	#为了测试图卷积，每一类都只抽取一部分，剩下作验证集或测试集
 	one_hot_labels = np.zeros((ip_num,3))
@@ -228,6 +228,8 @@ def build_one_hot_labels(ip_num, 3):
 	with open(labels_save_filename,'w+') as f:
 		pkl.dump(one_hot_labels)
 		print("done")
+
+build_one_hot_labels(ip_num)
 
 
 
