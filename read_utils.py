@@ -10,6 +10,8 @@ load_filename = "march.week3.csv.uniqblacklistremoved"
 
 savepath = ""
 save_filename = "clear_data.csv"
+sparse_save_filename = "graph_sparse_martix"
+ip_save_filename = "ip_set"
 
 def pre_process(filname):
 	ip_set = set([])
@@ -95,6 +97,7 @@ def build_graph(filname):
 		sys.stdout.write("ip_num:%d   edge_num:%d"%(ip_num,edge_num))
 		sys.stdout.flush()
 	
+	pickle.dump(ip_list,ip_save_filename)
 
 	sparse_row = []
 	sparse_col = []
@@ -109,6 +112,8 @@ def build_graph(filname):
 
 	l = len(ip_list)
 	sparse_m = sp.csr_matrix((data,(sparse_row,sparse_col)),shape=(l,l))
+
+	pickle.dump(sparse_m,sparse_save_filename)
 
 	return sparse_m
 #下面已经用过一次了
