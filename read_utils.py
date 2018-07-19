@@ -210,7 +210,7 @@ def build_one_hot_labels(ip_num):
 	class_dir = {'background':0, 'blacklist':1, "anomaly-spam":2}
 
 	with open(ipdic_save_filename,'r') as f:
-		ip_dic = pkl.load()
+		ip_dic = pkl.load(f)
 		print("ip_dic done load")
 
 	row_cout = 0
