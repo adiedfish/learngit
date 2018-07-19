@@ -24,8 +24,10 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
+			'''
 			if cout > 100000000:
 				break
+			'''
 			try:
 				ip_set.add(row[2])
 				cout += 1
@@ -201,6 +203,8 @@ def build_features(ip_num, features_num):
 
 build_features(ip_num,50)
 
+
+#ip_num里有很多只出现在row[3]位置的，因为pre_process里第一次读的记录远大于第二次
 
 def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist, anomaly-spam,
