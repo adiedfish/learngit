@@ -50,7 +50,7 @@ def pre_process(filname):
 					if cout_sumn%100000 == 0:
 						pre = float(cout)/float(sumn)
 						pre_sumn = float(cout_sumn)/float(sumn)
-						sys.stdout.write("%.4f%      %.4f%"%(pre, pre_sumn))
+						sys.stdout.write("%.4f%%______________%.4f%%"%(pre, pre_sumn))
 						sys.stdout.write("\r")
 						sys.stdout.flush()
 		finally:
