@@ -28,7 +28,7 @@ def pre_process(filname):
 				if cout%100 == 0:
 					sys.stdout.write("%d"%cout)
 					sys.stdout.write("%\r")
-					sys.flush()
+					sys.stdout.flush()
 	print("!--------------------------------------------------------")
 	cout = 0
 	with open(filname,'r') as f:
@@ -46,7 +46,7 @@ def pre_process(filname):
 					if cout%100 == 0:
 						sys.stdout.write("%d"%cout)
 						sys.stdout.write("%\r")
-						sys.flush()
+						sys.stdout.flush()
 		finally:
 			save_csv_file.close()
 	print("?---------------------------------------------------------")
