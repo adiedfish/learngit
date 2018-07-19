@@ -24,6 +24,8 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
+			if cout > 6000000:
+				break
 			try:
 				ip_set.add(row[2])
 				cout += 1
