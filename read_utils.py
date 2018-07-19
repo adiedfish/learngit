@@ -25,11 +25,12 @@ def pre_process(filname):
 			except:
 				print("warning: nothing add once")
 			finally:
-				if cout%100 == 0:
-					sys.stdout.write("%d"%cout)
-					sys.stdout.write("%\r")
+				if cout%10000 == 0:
+					sys.stdout.write("already add:%d"%cout)
+					sys.stdout.write("\r")
 					sys.stdout.flush()
 	print("!--------------------------------------------------------")
+	sumn = cout
 	cout = 0
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
@@ -43,8 +44,9 @@ def pre_process(filname):
 				except:
 					print("warning:nothing write once")
 				finally:
-					if cout%100 == 0:
-						sys.stdout.write("%d"%cout)
+					if cout%10000 == 0:
+						pre = float(cout)/float(sumn)
+						sys.stdout.write("%.4f"%pre)
 						sys.stdout.write("%\r")
 						sys.stdout.flush()
 		finally:
