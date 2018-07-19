@@ -29,7 +29,7 @@ def pre_process(filname):
 					sys.stdout.write("already add:%d"%cout)
 					sys.stdout.write("\r")
 					sys.stdout.flush()
-	print("!--------------------------------------------------------")
+	print("!---------------have:%d------------------------------"%cout)
 	sumn = cout
 	cout = 0
 	with open(filname,'r') as f:
@@ -41,6 +41,7 @@ def pre_process(filname):
 				try:
 					if row[3] in ip_set:
 						writer.writerow(row)
+						cout += 1
 				except:
 					print("warning:nothing write once")
 				finally:
@@ -51,7 +52,7 @@ def pre_process(filname):
 						sys.stdout.flush()
 		finally:
 			save_csv_file.close()
-	print("?---------------------------------------------------------")
+	print("?--------------------have:%f------------------------------"%pre)
 
 def build_graph(filname):
 	ip_list = []
