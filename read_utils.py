@@ -32,6 +32,7 @@ def pre_process(filname):
 	print("!---------------have:%d------------------------------"%cout)
 	sumn = cout
 	cout = 0
+	cout_sumn = 0
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		save_csv_file = open(save_filename,"w+")
@@ -45,9 +46,11 @@ def pre_process(filname):
 				except:
 					print("warning:nothing write once")
 				finally:
+					cout_sumn += 1
 					if cout%10000 == 0:
 						pre = float(cout)/float(sumn)
-						sys.stdout.write("%.4f"%pre)
+						pre_sumn = float(cout_sumn)/float(sumn)
+						sys.stdout.write("%.4f_________%.4f"%(pre, pre_sumn))
 						sys.stdout.write("%\r")
 						sys.stdout.flush()
 		finally:
