@@ -15,7 +15,7 @@ ipset_save_filename = "ip_set"
 ipdic_save_filename = "ip_dic"
 features_save_filename = "features_martix"
 labels_save_filename = "labers"
-
+'''
 def pre_process(filname):
 	ip_set = set([])
 
@@ -66,7 +66,7 @@ def pre_process(filname):
 						sys.stdout.flush()
 		finally:
 			save_csv_file.close()
-	print("?--------------------have:%f------------------------------"%pre)
+	print("?--------------------have:%f%%------------------------------"%pre)
 
 def build_graph(filname):
 	ip_list = []
@@ -205,13 +205,13 @@ build_features(ip_num,50)
 
 
 #ip_num里有很多只出现在row[3]位置的，因为pre_process里第一次读的记录远大于第二次
-
+'''
 def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist, anomaly-spam,
 	#为了测试图卷积，每一类都只抽取一部分，剩下作验证集或测试集
 	one_hot_labels = np.zeros((ip_num,3))
 	ip_dic = {}
-	class_dir = {'background':0, 'blacklist':1, "anomaly-spam":2}
+	class_dir = {'background':0, 'blacklist':1, 'anomaly-spam':2}
 
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
@@ -239,7 +239,7 @@ def build_one_hot_labels(ip_num):
 		pkl.dump(one_hot_labels,f)
 		print("done")
 
-build_one_hot_labels(ip_num)
+build_one_hot_labels(560441)
 
 
 
