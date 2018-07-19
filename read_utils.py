@@ -43,6 +43,8 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
+				if cout > 6000000:
+					break
 				try:
 					if row[3] in ip_set:
 						writer.writerow(row)
@@ -123,11 +125,11 @@ def build_graph(filname):
 		pkl.dump(sparse_m,f)
 	print("done")
 	
-	return sparse_m
+	return i
 #下面已经用过一次了
-#pre_process(loadpath+load_filename)
+pre_process(loadpath+load_filename)
 
-#sparse_m = build_graph(save_filename)
+ip_num = build_graph(save_filename)
 
 
 '''
@@ -155,7 +157,7 @@ def build_features(ip_num, features_num):
 		csv_file = csv.reader(f)
 		print("begin")
 		for row in csv_file:
-			if row_cout > 10000000:
+			if row_cout > 1000000:
 				break
 			source_index = ip_dic[row[2]]
 			aim_index = ip_dic[row[3]]
@@ -200,7 +202,7 @@ def build_features(ip_num, features_num):
 		print("done")
 
 
-build_features(15884000,50)
+build_features(ip_num,50)
 
 
 def build_one_hot_labels():
