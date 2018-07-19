@@ -13,25 +13,43 @@ save_filename = "clear_data.csv"
 
 def pre_process(filname):
 	ip_set = set([])
+
+	cout = 0
+	
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
 			try:
 				ip_set.add(row[2])
+				cout += 1
 			except:
-				print("warning")
-	print("!-----------------------------")
+				print("warning: nothing add once")
+			finally:
+				if cout%100 == 0:
+					sys.stdout.write("%d"%cout)
+					sys.stdout.write("%\r")
+					sys.flush()
+	print("!--------------------------------------------------------")
+	cout = 0
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		save_csv_file = open(save_filename,"w+")
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if row[3] in ip_set:
-					writer.writerow(row)
+				try:
+					if row[3] in ip_set:
+						writer.writerow(row)
+				except:
+					print("warning:nothing write once")
+				finally:
+					if cout%100 == 0:
+						sys.stdout.write("%d"%cout)
+						sys.stdout.write("%\r")
+						sys.flush()
 		finally:
 			save_csv_file.close()
-	print("?------------------------------")
+	print("?---------------------------------------------------------")
 
 def build_graph(filname):
 	ip_list = []
