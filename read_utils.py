@@ -12,7 +12,8 @@ savepath = ""
 save_filename = "clear_data.csv"
 sparse_save_filename = "sparse_martix"
 ipset_save_filename = "ip_set"
-ipdic_save_filename - "ip_dic"
+ipdic_save_filename = "ip_dic"
+features_save_filename = "features_martix"
 
 def pre_process(filname):
 	ip_set = set([])
@@ -102,6 +103,7 @@ def build_graph(filname):
 		pkl.dump(ip_list,f)
 	with open(ipdic_save_filename,'w+') as f:
 		pkl.dump(ip_dic,f)
+	print("done")
 
 	sparse_row = []
 	sparse_col = []
@@ -119,12 +121,13 @@ def build_graph(filname):
 
 	with open(sparse_save_filename,'w+') as f:
 		pkl.dump(sparse_m,f)
-
+	print("done")
+	
 	return sparse_m
 #下面已经用过一次了
 #pre_process(loadpath+load_filename)
 
-sparse_m = build_graph(save_filename)
+#sparse_m = build_graph(save_filename)
 
 
 '''
@@ -133,8 +136,68 @@ with open(save_filename,"r") as f:
 	for row in csv_file:
 		print(row)
 '''
-def build_features():
-	pass
+def build_features(ip_num, features_num):
+	features_martix = np.zeros((ip_num,features_num))
+	ip_dic = {}
+	port_dic = {}
+	features_dic = {'IPv6':10, 'RSVP':11, 'GRE':12, 'ICMP':13, 'TCP':14, 'UDP':15, 'IPIP':16, 'ESP':17}
+	
+	with open(ipdic_save_filename,'r') as f:
+		ip_dic = pkl.load(f)
+		print("ip_dic done load")
+	
+	with open(sparse_save_filename,'r') as f:
+		sparse_martix = pkl.load(f)
+		print("sparse_martix done load")
+	
+	row_cout = 0
+	with open(save_filename,'r') as f:
+		csv_file = csv.reader(f)
+		print("begin")
+		for row in csv_file：
+			source_index = ip_dic[row[2]]
+			aim_index = ip_dic[row[3]]
+
+			#端口流量占比先不考虑
+			features_martix[source_index][0] += float(row[11])
+			features_martix[source_index][1] += float(row[10])
+			features_martix[source_index][4] += 1  #端口总数
+			features_martix[source_index][5] += 1
+			features_martix[source_index][6] += 1
+			features_martix[source_index][features_dic[row[6]]] += float(row[11])   #各协议占比 
+			#features_martix[source_index][18]
+			#features_martix[source_index][24]
+			if float(row[1]) < features_martix[source_index][46] or features_martix[source_index][46] == 0
+				features_martix[source_index][46] = float(row[1])
+			if float(row[1]) > features_martix[source_index][47]
+				features_martix[source_index][47] = float(row[1])
+
+			features_martix[aim_index][2] += float(row[11])
+			features_martix[aim_index][3] += float(row[12])
+			features_martix[aim_index][7] += 1
+			features_martix[aim_index][8] += 1
+			features_martix[aim_index][9] += 1
+			features_martix[aim_index][features_dic[row[6]]] += float(row[11])
+			#features_martix[aim_index][36]
+			#features_martix[aim_index][41]
+			if float(row[1]) < features_martix[aim_index][48] or features_martix[aim_index][48] == 0
+				features_martix[aim_index][48] = float(row[1])
+			if float(row[1]) > features_martix[aim_index][49]
+				features_martix[aim_index][49] = float(row[1])
+			row_cout += 1
+			if row_cout%100 == 0:
+				sys.stdout("%d rows done"%row_cout)
+				sys.stdout("\r")
+				sys.flush()
+		sys.stdout("%d rows done"%row_cout)
+		sys.flush()
+	with open(features_save_filename,'w+') as f:
+		pkl.dump(features_martix,f)
+		print("done")
+
+
+build_features(15884000,50)
+
 
 def build_one_hot_labels():
 	pass
