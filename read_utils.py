@@ -24,7 +24,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 6000000:
+			if cout > 60000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -203,7 +203,7 @@ build_features(ip_num,50)
 
 
 def build_one_hot_labels(ip_num):
-	#前600万条只有3类，background, blacklist,anomaly-spam
+	#前600万条只有3类，background, blacklist, anomaly-spam,
 	#为了测试图卷积，每一类都只抽取一部分，剩下作验证集或测试集
 	one_hot_labels = np.zeros((ip_num,3))
 	ip_dic = {}
@@ -218,8 +218,10 @@ def build_one_hot_labels(ip_num):
 		csv_file = csv.reader(f)
 		for row in csv_file:
 			source_index = ip_dic[row[2]]
-			one_hot_labels[source_index][class_dir[row[12]]] = 1
-			
+			if row[12] in class_dir:
+				one_hot_labels[source_index][class_dir[row[12]]] = 1
+			else:
+				print("nokey")
 			row_cout += 1
 			if row_cout%100 == 0: 
 				sys.stdout.write("%d rows done"%row_cout)
