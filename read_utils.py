@@ -24,7 +24,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 60000000:
+			if cout > 100000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -230,7 +230,7 @@ def build_one_hot_labels(ip_num):
 		sys.stdout.write("%d rows done"%row_cout)
 		sys.stdout.flush()
 	with open(labels_save_filename,'w+') as f:
-		pkl.dump(one_hot_labels)
+		pkl.dump(one_hot_labels,f)
 		print("done")
 
 build_one_hot_labels(ip_num)
