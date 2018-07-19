@@ -14,6 +14,7 @@ sparse_save_filename = "sparse_martix"
 ipset_save_filename = "ip_set"
 ipdic_save_filename = "ip_dic"
 features_save_filename = "features_martix"
+labels_save_filename = "labers"
 
 def pre_process(filname):
 	ip_set = set([])
@@ -127,9 +128,9 @@ def build_graph(filname):
 	
 	return i
 #下面已经用过一次了
-pre_process(loadpath+load_filename)
+#pre_process(loadpath+load_filename)
 
-ip_num = build_graph(save_filename)
+#ip_num = build_graph(save_filename)
 
 
 '''
@@ -147,10 +148,6 @@ def build_features(ip_num, features_num):
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
 		print("ip_dic done load")
-	
-	with open(sparse_save_filename,'r') as f:
-		sparse_martix = pkl.load(f)
-		print("sparse_martix done load")
 	
 	row_cout = 0
 	with open(save_filename,'r') as f:
@@ -200,11 +197,39 @@ def build_features(ip_num, features_num):
 		print("done")
 
 
-build_features(ip_num,50)
+#build_features(ip_num,50)
 
 
-def build_one_hot_labels():
-	pass
+def build_one_hot_labels(ip_num, 3):
+	#前600万条只有3类，background, blacklist,anomaly-spam
+	#为了测试图卷积，每一类都只抽取一部分，剩下作验证集或测试集
+	one_hot_labels = np.zeros((ip_num,3))
+	ip_dic = {}
+	class_dir = {'background':0, 'blacklist':1, "anomaly-spam":2}
+
+	with open(ipdic_save_filename,'r') as f:
+		ip_dic = pkl.load()
+		print("ip_dic done load")
+
+	row_cout = 0
+	with open(save_filename,'r') as f:
+		csv_file = csv.reader(f)
+		for row in csv_file:
+			source_index = ip_dic[row[2]]
+			one_hot_labels[source_index][class_dir[row[12]]] = 1
+			
+			row_cout += 1
+			if row_cout%100 == 0: 
+				sys.stdout.write("%d rows done"%row_cout)
+				sys.stdout.write("\r")
+				sys.stdout.flush()
+		sys.stdout.write("%d rows done"%row_cout)
+		sys.stdout.flush()
+	with open(labels_save_filename,'w+') as f:
+		pkl.dump(one_hot_labels)
+		print("done")
+
+
 
 
 
