@@ -48,8 +48,8 @@ def pre_process(filname):
 				finally:
 					cout_sumn += 1
 					if cout_sumn%100000 == 0:
-						pre = float(cout)/float(sumn)
-						pre_sumn = float(cout_sumn)/float(sumn)
+						pre = float(cout)*100/float(sumn)
+						pre_sumn = float(cout_sumn)*100/float(sumn)
 						sys.stdout.write("%.4f%%______________%.4f%%"%(pre, pre_sumn))
 						sys.stdout.write("\r")
 						sys.stdout.flush()
