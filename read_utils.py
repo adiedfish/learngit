@@ -64,6 +64,11 @@ def build_graph(filname):
 	sparse = {}
 	#之后再化成np数组
 
+	#for std
+	ip_num = 0
+	edge_num = 0
+	#
+
 	i = 0
 	with open(filname,'r') as f:
 		csv_file = csv.reader(f)
@@ -77,10 +82,20 @@ def build_graph(filname):
 				ip_dic[row[3]] = i
 				i += 1
 			key = (int(ip_dic[row[2]]),int(ip_dic[row[3]]))
+			ip_num = i
 			if key not in sparse:
 				sparse[key] = int(row[11])
+				edge += 1
 			elif key in sparse:
 				sparse[key] += int(row[11])
+			if ip_num%10 == 0:
+				sys.stdout.write("ip_num:%d   edge_num:%d"%(ip_num,edge_num))
+				sys.stdout.write("\r")
+				sys.stdout.flush()
+		sys.stdout.write("ip_num:%d   edge_num:%d"%(ip_num,edge_num))
+		sys.flush()
+	
+
 	sparse_row = []
 	sparse_col = []
 	data = []
@@ -96,15 +111,31 @@ def build_graph(filname):
 	sparse_m = sp.csr_matrix((data,(sparse_row,sparse_col)),shape=(l,l))
 
 	return sparse_m
+#下面已经用过一次了
+#pre_process(loadpath+load_filename)
 
-pre_process(loadpath+load_filename)
-with open("save_filename","r") as f:
+sparse_m = build_graph(save_filename)
+
+
+'''
+with open(save_filename,"r") as f:
 	csv_file = csv.reader(f)
 	for row in csv_file:
 		print(row)
-
+'''
 def build_features():
-	pass
+	
 
 def build_one_hot_labels():
 	pass
+
+
+
+
+
+
+
+
+
+
+
