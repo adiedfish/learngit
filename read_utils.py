@@ -97,7 +97,8 @@ def build_graph(filname):
 		sys.stdout.write("ip_num:%d   edge_num:%d"%(ip_num,edge_num))
 		sys.stdout.flush()
 	
-	pickle.dump(ip_list,ip_save_filename)
+	with open(ip_save_filename,'w+') as f:
+		pkl.dump(ip_list,f)
 
 	sparse_row = []
 	sparse_col = []
@@ -113,7 +114,8 @@ def build_graph(filname):
 	l = len(ip_list)
 	sparse_m = sp.csr_matrix((data,(sparse_row,sparse_col)),shape=(l,l))
 
-	pickle.dump(sparse_m,sparse_save_filename)
+	with open(sparse_save_filename,'w+') as f:
+		pkl.dump(sparse_m,sparse_save_filename)
 
 	return sparse_m
 #下面已经用过一次了
