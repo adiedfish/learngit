@@ -115,7 +115,7 @@ def build_graph(filname):
 	sparse_m = sp.csr_matrix((data,(sparse_row,sparse_col)),shape=(l,l))
 
 	with open(sparse_save_filename,'w+') as f:
-		pkl.dump(sparse_m,sparse_save_filename)
+		pkl.dump(sparse_m,f)
 
 	return sparse_m
 #下面已经用过一次了
