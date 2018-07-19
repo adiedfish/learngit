@@ -5,7 +5,7 @@ import csv
 import scipy.sparse as sp
 import sys
 
-loadpath = "~/test/data/uniq/"
+loadpath = "../"
 load_filename = "march.week3.csv.uniqblacklistremoved"
 
 savepath = ""
