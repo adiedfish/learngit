@@ -85,15 +85,15 @@ def build_graph(filname):
 			ip_num = i
 			if key not in sparse:
 				sparse[key] = int(row[11])
-				edge += 1
+				edge_num += 1
 			elif key in sparse:
 				sparse[key] += int(row[11])
-			if ip_num%10 == 0:
+			if ip_num%1000 == 0:
 				sys.stdout.write("ip_num:%d   edge_num:%d"%(ip_num,edge_num))
 				sys.stdout.write("\r")
 				sys.stdout.flush()
 		sys.stdout.write("ip_num:%d   edge_num:%d"%(ip_num,edge_num))
-		sys.flush()
+		sys.stdout.flush()
 	
 
 	sparse_row = []
@@ -124,7 +124,7 @@ with open(save_filename,"r") as f:
 		print(row)
 '''
 def build_features():
-	
+	pass
 
 def build_one_hot_labels():
 	pass
