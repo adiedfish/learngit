@@ -5,7 +5,7 @@ import csv
 import scipy.sparse as sp
 import sys
 
-loadpath = "~/test/data/uniq"
+loadpath = "~/test/data/uniq/"
 load_filename = "march.week3.csv.uniqblacklistremoved"
 
 savepath = ""
@@ -73,7 +73,7 @@ def build_graph(filname):
 
 	return sparse_m
 
-pre_process(load_filename)
+pre_process(loadpath+load_filename)
 with open("save_filename","r") as f:
 	csv_file = csv.reader(f)
 	for row in csv_file:
