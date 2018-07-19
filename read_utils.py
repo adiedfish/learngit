@@ -10,8 +10,9 @@ load_filename = "march.week3.csv.uniqblacklistremoved"
 
 savepath = ""
 save_filename = "clear_data.csv"
-sparse_save_filename = "graph_sparse_martix"
-ip_save_filename = "ip_set"
+sparse_save_filename = "sparse_martix"
+ipset_save_filename = "ip_set"
+ipdic_save_filename - "ip_dic"
 
 def pre_process(filname):
 	ip_set = set([])
@@ -97,8 +98,10 @@ def build_graph(filname):
 		sys.stdout.write("ip_num:%d   edge_num:%d"%(ip_num,edge_num))
 		sys.stdout.flush()
 	
-	with open(ip_save_filename,'w+') as f:
+	with open(ipset_save_filename,'w+') as f:
 		pkl.dump(ip_list,f)
+	with open(ipdic_save_filename,'w+') as f:
+		pkl.dump(ip_dic,f)
 
 	sparse_row = []
 	sparse_col = []
