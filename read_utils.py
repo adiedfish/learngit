@@ -157,8 +157,6 @@ def build_features(ip_num, features_num):
 		csv_file = csv.reader(f)
 		print("begin")
 		for row in csv_file:
-			if row_cout > 1000000:
-				break
 			source_index = ip_dic[row[2]]
 			aim_index = ip_dic[row[3]]
 
