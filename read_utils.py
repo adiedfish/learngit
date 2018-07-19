@@ -5,7 +5,7 @@ import csv
 import scipy.sparse as sp
 import sys
 
-loadpath = ""
+loadpath = "~/test/data/uniq"
 load_filename = "march.week3.csv.uniqblacklistremoved"
 
 savepath = ""
@@ -16,7 +16,10 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			ip_set.add(row[2])
+			try:
+				ip_set.add(row[2])
+			except:
+				print("warning")
 	print("!-----------------------------")
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
@@ -79,5 +82,5 @@ with open("save_filename","r") as f:
 def build_features():
 	pass
 
-def build_one-hot_labels():
+def build_one_hot_labels():
 	pass
