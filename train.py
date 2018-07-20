@@ -7,6 +7,7 @@ import numpy as np
 import pickle as pkl
 import scipy.sparse as sp
 import networkx as nx
+import sys
 
 def sparse_to_tuple(sparse_mx):
     def to_tuple(mx):
@@ -124,12 +125,18 @@ for i in range(epochs):
 
 allb = 0
 cout = 0
-for i in xrange(len(labels)):
-	if labels[i][1] == 1:
+for i in xrange(len(labels_all)):
+	if labels_all[i][1] == 1:
 		allb += 1
-		if tf.argmax(sess.run(predict,feed_dict={support:sparse_martix,x:features[i]}),1) == 1:
+		if tf.argmax(sess.run(predict,feed_dict={support:sparse_martix,x:features})[i],1) == 1:
 			cout += 1
-print("blacklist predict pro:%.4f"%float(cout)/float(allb))
+	if allb%100 == 0:
+		sys.stdout.write("%d labels done"%allb)
+		sys.stdout.write('\r')
+		sys.stdout.flush()
+sys.stdout.write("%d labels done"%allb)
+sys.stdout.flush()
+print("blacklist predict pro:%.4f"%(float(cout)/float(allb)))
 print("Optimization Finished")
 
 
