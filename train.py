@@ -128,7 +128,9 @@ cout = 0
 for i in xrange(len(labels_all)):
 	if labels_all[i][1] == 1:
 		allb += 1
-		ind = tf.sess.run(tf.argmax(sess.run(predict,feed_dict={support:sparse_martix,x:features})[i],1))
+		v = sess.run(predict,feed_dict={support:sparse_martix,x:features})[i]
+		print(v)
+		ind = sess.run(tf.argmax(v))
 		print(ind)
 		if ind == 1:
 			cout += 1
