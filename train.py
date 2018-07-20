@@ -74,8 +74,8 @@ support = tf.sparse_placeholder(tf.float32)
 x = tf.placeholder(tf.float32)
 labels = tf.placeholder(tf.float32)
 
-b1_shape = (16)
-w1_shape = (features.shape[1],16)
+b1_shape = (32)
+w1_shape = (features.shape[1],32)
 init_range = np.sqrt(6.0/(w1_shape[0]+w1_shape[1]))
 
 w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
@@ -87,7 +87,7 @@ z1 = tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1))
 activate = tf.nn.relu(z1+b1)
 
 b2_shape = (3)
-w2_shape = (16,3)
+w2_shape = (32,3)
 init_range = np.sqrt(6.0/(w2_shape[0]+w2_shape[1]))
 
 w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
@@ -129,9 +129,7 @@ for i in xrange(len(labels_all)):
 	if labels_all[i][1] == 1:
 		allb += 1
 		v = sess.run(predict,feed_dict={support:sparse_martix,x:features})[i]
-		print(v)
 		ind = sess.run(tf.argmax(v))
-		print(ind)
 		if ind == 1:
 			cout += 1
 	if allb%10 == 0:
