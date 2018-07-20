@@ -47,7 +47,7 @@ save_filename = "clear_data.csv"
 sparse_save_filename = "sparse_martix"
 ipset_save_filename = "ip_set"
 ipdic_save_filename = "ip_dic"
-features_save_filename = "features_martix"
+features_save_filename = "n_features_martix"
 labels_save_filename = "labers"
 labels_for_test_save_filename = "labels_for_test"
 
@@ -130,7 +130,7 @@ for i in xrange(len(labels_all)):
 		allb += 1
 		if tf.argmax(sess.run(predict,feed_dict={support:sparse_martix,x:features})[i],1) == 1:
 			cout += 1
-	if allb%100 == 0:
+	if allb%10 == 0:
 		sys.stdout.write("%d labels done"%allb)
 		sys.stdout.write('\r')
 		sys.stdout.flush()
