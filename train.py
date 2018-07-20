@@ -55,7 +55,7 @@ with open(features_save_filename,'r') as f:
 	print("features load done")
 
 with open(labels_save_filename,'r') as f:
-	labels = pkl.load(f)
+	labels_all = pkl.load(f)
 	print("labels load done")
 
 with open(labels_for_test_save_filename,'r') as f:
@@ -66,14 +66,15 @@ with open(sparse_save_filename,'r') as f:
 	sparse = pkl.load(f)
 	print("sparse load done")
 
-sparse_martix =  normalize_adj(sparse)
+sparse_martix = preprocess_adj(sparse)
+#sparse_martix = sparse
 
 support = tf.sparse_placeholder(tf.float32)
 x = tf.placeholder(tf.float32)
 labels = tf.placeholder(tf.float32)
 
 b1_shape = (16)
-w1_shape = (len(features),16)
+w1_shape = (features.shape[1],16)
 init_range = np.sqrt(6.0/(w1_shape[0]+w1_shape[1]))
 
 w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
@@ -98,7 +99,7 @@ predict = tf.nn.softmax(z2+b2)
 
 
 learning_rate = 0.0001
-loss = tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels)
+loss = sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))
 
 train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
@@ -113,13 +114,13 @@ for i in range(epochs):
 	train_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
 	train_acc = sess.run(train_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
 	
-	test_loss = sess.run(loss, feed_dic={support:sparse_martix,x:features,labels:labels})
+	test_loss = sess.run(loss, feed_dict={support:sparse_martix,x:features,labels:labels_all})
 	test_acc_tf =tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
-	test_acc = sess.run(test_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels})
+	test_acc = sess.run(test_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_all})
 	
-	print("Epoch:",'%04d'%(i+1)," train_loss=","{:.5f}".format(train_loss),
-		"train_acc=","{:.5f}".format(train_acc),"test_loss=","{:.5f}".format(test_loss),
-		"test_acc","{:.5f}".format(test_acc),"time=","{:.5f}".format(time.time()-t))
+	print("Epoch:",'%04d'%(i+1)," train_loss=","{}".format(train_loss),
+		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
+		"test_acc","{}".format(test_acc),"time=","{}".format(time.time()-t))
 
 print("Optimization Finished")
 
