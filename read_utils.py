@@ -15,7 +15,9 @@ ipset_save_filename = "ip_set"
 ipdic_save_filename = "ip_dic"
 features_save_filename = "features_martix"
 labels_save_filename = "labers"
+labels_for_test_save_filename = "labels_for_test"
 
+data_save_path = "~/test/gcn/gcn/data"
 def pre_process(filname):
 	ip_set = set([])
 
@@ -68,7 +70,7 @@ def pre_process(filname):
 			save_csv_file.close()
 	print("?--------------------have:%f%%------------------------------"%pre)
 
-pre_process(loadpath+load_filename)
+#pre_process(loadpath+load_filename)
 
 def build_graph(filname):
 	ip_list = []
@@ -134,7 +136,7 @@ def build_graph(filname):
 	
 	return i
 
-ip_num = build_graph(save_filename)
+#ip_num = build_graph(save_filename)
 
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
@@ -193,7 +195,7 @@ def build_features(ip_num, features_num):
 		pkl.dump(features_martix,f)
 		print("done")
 
-build_features(ip_num,50)
+#build_features(ip_num,50)
 
 def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist, anomaly-spam(稀少)（干脆去掉做二分类）
@@ -218,7 +220,7 @@ def build_one_hot_labels(ip_num):
 					one_hot_labels[source_index][0] = 0
 					one_hot_labels[source_index][1] = 0
 					one_hot_labels[source_index][2] = 0
-				if one_hot_labels[source_index][2] == 0 && one_hot_labels[source_index][1] == 0
+				if one_hot_labels[source_index][2] == 0 and one_hot_labels[source_index][1] == 0:
 					one_hot_labels[source_index][class_dir[row[12]]] = 1
 			else:
 				no_key_cout += 1
@@ -234,9 +236,45 @@ def build_one_hot_labels(ip_num):
 		pkl.dump(one_hot_labels,f)
 		print("done")
 
-build_one_hot_labels(560441)
+#build_one_hot_labels(560441)
 
 
+def build_one_hot_labels_for_test(ip_num):
+	one_hot_labels_for_test = np.zeros((ip_num,3))
+	background_test_num = 5000
+	background_test_cout = 0
+
+	blacklist_test_num = 500
+	blacklist_test_cout = 0
+
+	spam_test_num = 5
+	spam_test_cout = 0
+
+	row_cout = 0
+ 	with open(labels_save_filename,'r') as f:
+ 		labels = pkl.load(f)
+ 		for i in xrange(len(labels)):
+ 			if labels[i][0] == 1 and background_test_cout < background_test_num:
+ 				one_hot_labels_for_test[i][0] = 1
+ 				background_test_cout += 1
+ 			if labels[i][1] == 1 and blacklist_test_cout < blacklist_test_num:
+ 				one_hot_labels_for_test[i][1] = 1
+ 				blacklist_test_cout += 1
+ 			if labels[i][2] == 1 and spam_test_cout < spam_test_num:
+ 				one_hot_labels_for_test[i][2] = 1
+ 				spam_test_cout += 1
+ 			row_cout += 1
+ 			if row_cout%100 == 0:
+ 				sys.stdout.write("%d rows done"%row_cout)
+ 				sys.stdout.write("\r")
+ 				sys.stdout.flush()
+ 		sys.stdout.write("%d rows done"%row_cout)
+ 		sys.stdout.flush()
+ 	with open(labels_for_test_save_filename,'w+') as f:
+ 		pkl.dump(one_hot_labels_for_test,f)
+ 		print("done")
+
+build_one_hot_labels_for_test(560441)
 
 
 
