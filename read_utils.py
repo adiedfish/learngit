@@ -15,7 +15,7 @@ ipset_save_filename = "ip_set"
 ipdic_save_filename = "ip_dic"
 features_save_filename = "features_martix"
 labels_save_filename = "labers"
-'''
+
 def pre_process(filname):
 	ip_set = set([])
 
@@ -67,6 +67,8 @@ def pre_process(filname):
 		finally:
 			save_csv_file.close()
 	print("?--------------------have:%f%%------------------------------"%pre)
+
+pre_process(loadpath+load_filename)
 
 def build_graph(filname):
 	ip_list = []
@@ -131,18 +133,9 @@ def build_graph(filname):
 	print("done")
 	
 	return i
-#下面已经用过一次了
-pre_process(loadpath+load_filename)
 
 ip_num = build_graph(save_filename)
 
-
-'''
-with open(save_filename,"r") as f:
-	csv_file = csv.reader(f)
-	for row in csv_file:
-		print(row)
-'''
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
 	ip_dic = {}
@@ -200,14 +193,10 @@ def build_features(ip_num, features_num):
 		pkl.dump(features_martix,f)
 		print("done")
 
-
 build_features(ip_num,50)
 
-
-#ip_num里有很多只出现在row[3]位置的，因为pre_process里第一次读的记录远大于第二次
-'''
 def build_one_hot_labels(ip_num):
-	#前600万条只有3类，background, blacklist, anomaly-spam,
+	#前600万条只有3类，background, blacklist, anomaly-spam(稀少)（干脆去掉做二分类）
 	#为了测试图卷积，每一类都只抽取一部分，剩下作验证集或测试集
 	one_hot_labels = np.zeros((ip_num,3))
 	ip_dic = {}
@@ -224,7 +213,13 @@ def build_one_hot_labels(ip_num):
 		for row in csv_file:
 			source_index = ip_dic[row[2]]
 			if row[12] in class_dir:
-				one_hot_labels[source_index][class_dir[row[12]]] = 1
+				#确保one-hot
+				if row[12] != 'background':
+					one_hot_labels[source_index][0] = 0
+					one_hot_labels[source_index][1] = 0
+					one_hot_labels[source_index][2] = 0
+				if one_hot_labels[source_index][2] == 0 && one_hot_labels[source_index][1] == 0
+					one_hot_labels[source_index][class_dir[row[12]]] = 1
 			else:
 				no_key_cout += 1
 			row_cout += 1
