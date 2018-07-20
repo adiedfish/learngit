@@ -99,7 +99,7 @@ predict = tf.nn.softmax(z2+b2)
 
 
 learning_rate = 0.0001
-loss = sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))
+loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)
 
 train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
@@ -120,8 +120,16 @@ for i in range(epochs):
 	
 	print("Epoch:",'%04d'%(i+1)," train_loss=","{}".format(train_loss),
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
-		"test_acc","{}".format(test_acc),"time=","{}".format(time.time()-t))
+		"test_acc=","{}".format(test_acc),"time=","{}".format(time.time()-t))
 
+allb = 0
+cout = 0
+for i in xrange(len(labels)):
+	if labels[i][1] == 1:
+		allb += 1
+		if tf.argmax(sess.run(predict,feed_dict={support:sparse_martix,x:features[i]}),1) == 1:
+			cout += 1
+print("blacklist predict pro:%.4f"%float(cout)/float(allb))
 print("Optimization Finished")
 
 
