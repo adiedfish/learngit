@@ -291,7 +291,7 @@ def normalize_data(ip_num, features_num):
 		pkl.dump(n_features_martix,f)
 		print("done")
 
-normalize_data(560441,50)
+#normalize_data(560441,50)
 
 
 
