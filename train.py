@@ -128,7 +128,9 @@ cout = 0
 for i in xrange(len(labels_all)):
 	if labels_all[i][1] == 1:
 		allb += 1
-		if tf.argmax(sess.run(predict,feed_dict={support:sparse_martix,x:features})[i],1) == 1:
+		ind = tf.sess.run(tf.argmax(sess.run(predict,feed_dict={support:sparse_martix,x:features})[i],1))
+		print(ind)
+		if ind == 1:
 			cout += 1
 	if allb%10 == 0:
 		sys.stdout.write("%d labels done"%allb)
