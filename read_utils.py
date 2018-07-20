@@ -14,10 +14,11 @@ sparse_save_filename = "sparse_martix"
 ipset_save_filename = "ip_set"
 ipdic_save_filename = "ip_dic"
 features_save_filename = "features_martix"
+n_features_save_filename = "n_features_martix"
 labels_save_filename = "labers"
 labels_for_test_save_filename = "labels_for_test"
 
-data_save_path = "~/test/gcn/gcn/data"
+
 def pre_process(filname):
 	ip_set = set([])
 
@@ -238,7 +239,6 @@ def build_one_hot_labels(ip_num):
 
 #build_one_hot_labels(560441)
 
-
 def build_one_hot_labels_for_test(ip_num):
 	one_hot_labels_for_test = np.zeros((ip_num,3))
 	background_test_num = 5000
@@ -274,8 +274,24 @@ def build_one_hot_labels_for_test(ip_num):
  		pkl.dump(one_hot_labels_for_test,f)
  		print("done")
 
-build_one_hot_labels_for_test(560441)
+#build_one_hot_labels_for_test(560441)
 
+def normalize_data():
+	n_features_martix = features_martix = np.zeros((ip_num,features_num))
+	with open(features_save_filename,'r') as f:
+		n_features_martix = pkl.load(f)
+	mean_v = np.mean(n_features_martix, 0)
+	std_v = np.std(n_features_martix, 1)
+	for i in range(n_features_martix.shape[1]):
+		n_features_martix[:,i] = (n_features_martix[:,i]-mean_v[i])/std_v[i]
+		sys.stdout.write("%d comp"%i)
+		sys.stdout.write("\r")
+		sys.stdout.write.flush()
+	with open(n_features_save_filename, "w+") as f:
+		pkl.dump(n_features_martix,f)
+		print("done")
+
+normalize_data()
 
 
 
