@@ -1,4 +1,8 @@
 #-*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import numpy as np 
 import pickle as pkl
 import csv
@@ -10,11 +14,16 @@ load_filename = "march.week3.csv.uniqblacklistremoved"
 
 savepath = ""
 save_filename = "clear_data.csv"
+
 sparse_save_filename = "sparse_martix"
+scale_sparse_save_filename = "scale_sparse"
+
 ipset_save_filename = "ip_set"
 ipdic_save_filename = "ip_dic"
+
 features_save_filename = "features_martix"
 n_features_save_filename = "n_features_martix"
+
 labels_save_filename = "labers"
 labels_for_test_save_filename = "labels_for_test"
 
@@ -139,6 +148,18 @@ def build_graph(filname):
 
 #ip_num = build_graph(save_filename)
 
+def build_scale_graph():
+	with open(sparse_save_filename,'r') as f:
+		sparse_m = pkl.load(f)
+	m = sparse_m.max()
+	sparse_m = sparse_m/m
+	with open(scale_sparse_save_filename, 'w+') as f:
+		pkl.dump(sparse_m,f)
+	print("done")
+
+build_scale_graph()
+
+
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
 	ip_dic = {}
@@ -241,7 +262,7 @@ def build_one_hot_labels(ip_num):
 
 def build_one_hot_labels_for_test(ip_num):
 	one_hot_labels_for_test = np.zeros((ip_num,3))
-	background_test_num = 5000
+	background_test_num = 500
 	background_test_cout = 0
 
 	blacklist_test_num = 500
