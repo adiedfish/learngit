@@ -9,18 +9,6 @@ import scipy.sparse as sp
 import networkx as nx
 import sys
 
-def black_acc(predict,sparse_martix,features):
-	cout = 0
-	allb = 1
-	all_v = predict
-	for j in xrange(len(labels_all)):
-		if labels_all[j][1] == 1:
-			allb += 1
-			v_index = tf.argmax(all_v[j])
-			if sess.run(v_index) == 1:
-				cout += 1
-	test_acc = float(cout)/float(allb)
-
 
 
 def sparse_to_tuple(sparse_mx):
@@ -133,19 +121,14 @@ for i in range(epochs):
 	
 
 	test_loss = sess.run(loss, feed_dict={support:sparse_martix,x:features,labels:labels_all})
-	'''
 	test_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
 	test_acc = sess.run(test_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_all})
-	'''
-
-	black_acc = black_acc(predict,sparse_martix,features)
-	test_acc = sess.run(black_acc,feed_dict = {support:sparse_martix,x:features})
 	
 	print("Epoch:",'%04d'%(i+1)," train_loss=","{}".format(train_loss),
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
 		"test_acc=","{}".format(test_acc),"time=","{}".format(time.time()-t))
 
-'''
+
 allb = 0
 cout = 0
 for i in xrange(len(labels_all)):
@@ -162,7 +145,7 @@ for i in xrange(len(labels_all)):
 sys.stdout.write("%d labels done"%allb)
 sys.stdout.flush()
 print("blacklist predict pro:%.4f"%(float(cout)/float(allb)))
-'''
+
 print("Optimization Finished")
 
 
