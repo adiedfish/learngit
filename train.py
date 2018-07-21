@@ -9,6 +9,20 @@ import scipy.sparse as sp
 import networkx as nx
 import sys
 
+def black_acc(predict,sparse_martix,features):
+	cout = 0
+	allb = 1
+	all_v = predict
+	for j in xrange(len(labels_all)):
+		if labels_all[j][1] == 1:
+			allb += 1
+			v_index = tf.argmax(all_v[j])
+			if sess.run(v_index) == 1:
+				cout += 1
+	test_acc = float(cout)/float(allb)
+
+
+
 def sparse_to_tuple(sparse_mx):
     def to_tuple(mx):
         if not sp.isspmatrix_coo(mx):
@@ -124,17 +138,8 @@ for i in range(epochs):
 	test_acc = sess.run(test_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_all})
 	'''
 
-	cout = 0
-	allb = 0
-	all_v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
-	for j in xrange(len(labels_all)):
-		if labels_all[i][1] == 1:
-			allb += 1
-			v_index = tf.argmax(all_v[i])
-			if sess.run(v_index) == 1:
-				cout += 1
-	test_acc = float(cout)/float(allb)
-
+	black_acc = black_acc(predict,sparse_martix,features)
+	test_acc = sess.run(black_acc,feed_dict = {support:sparse_martix,x:features})
 	
 	print("Epoch:",'%04d'%(i+1)," train_loss=","{}".format(train_loss),
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
