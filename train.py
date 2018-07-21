@@ -68,7 +68,7 @@ with open(sparse_save_filename,'r') as f:
 	print("sparse load done")
 
 sparse_martix = preprocess_adj(sparse)
-sparse_martix = sparse_martix.dot(sparse_martix)
+#sparse_martix = sparse_martix.dot(sparse_martix)
 #sparse_martix = sparse
 
 support = tf.sparse_placeholder(tf.float32)
@@ -117,14 +117,30 @@ for i in range(epochs):
 	train_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
 	train_acc = sess.run(train_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
 	
+
 	test_loss = sess.run(loss, feed_dict={support:sparse_martix,x:features,labels:labels_all})
-	test_acc_tf =tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
+	'''
+	test_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
 	test_acc = sess.run(test_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_all})
+	'''
+
+	cout = 0
+	allb = 0
+	all_v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
+	for j in xrange(len(labels_all)):
+		if labels_all[i][1] == 1:
+			allb += 1
+			v_index = tf.argmax(all_v[i])
+			if sess.run(v_index) == 1:
+				cout += 1
+	test_acc = float(cout)/float(allb)
+
 	
 	print("Epoch:",'%04d'%(i+1)," train_loss=","{}".format(train_loss),
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
 		"test_acc=","{}".format(test_acc),"time=","{}".format(time.time()-t))
 
+'''
 allb = 0
 cout = 0
 for i in xrange(len(labels_all)):
@@ -141,6 +157,7 @@ for i in xrange(len(labels_all)):
 sys.stdout.write("%d labels done"%allb)
 sys.stdout.flush()
 print("blacklist predict pro:%.4f"%(float(cout)/float(allb)))
+'''
 print("Optimization Finished")
 
 
