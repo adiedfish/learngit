@@ -124,11 +124,40 @@ for i in range(epochs):
 	test_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
 	test_acc = sess.run(test_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_all})
 	
+	
 	print("Epoch:",'%04d'%(i+1)," train_loss=","{}".format(train_loss),
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
 		"test_acc=","{}".format(test_acc),"time=","{}".format(time.time()-t))
 
+	allb = 0
+	cout = 0
+	v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
+	ind_all = sess.run(tf.argmax(v,1))
+	for i in xrange(len(labels_all)):
+		if labels_all[i][1] == 1:
+			allb += 1
+			#v = sees.run(predict,feed_dict={support:sparse_martix,x:features})[i]
+			#ind = sess.run(tf.argmax(v[i]))
+			if ind_all[i] == 1:
+				cout += 1
+	rec = float(cout)/float(allb)
+	print("blacklist predict pro:%.4f"%(rec))
 
+	allb = 0
+	cout = 0
+	for i in xrange(len(labels_all)):
+		#ind = sess.run(tf.argmax(v[i]))
+		if ind_all[i] == 1:
+			allb += 1
+			if labels_all[i][1] == 1:
+				cout += 1
+	acc = float(cout)/float(allb)
+	print("blacklist predict pro:%.4f"%(acc))
+
+	f1_soc = 2*(rec*acc)/(rec+acc)
+	print(f1_soc)
+
+'''
 allb = 0
 cout = 0
 v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
@@ -168,6 +197,7 @@ print("blacklist predict pro:%.4f"%(acc))
 
 f1_soc = 2*(rec*acc)/(rec+acc)
 print(f1_soc)
+'''
 print("Optimization Finished")
 
 
