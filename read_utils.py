@@ -145,7 +145,7 @@ def build_graph(filname):
 	return i
 
 ip_num = build_graph(save_filename)
-with open("ip_num",'r') as f:
+with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
 print("ip_num save")
 
