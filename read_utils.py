@@ -78,7 +78,7 @@ def pre_process(filname):
 			save_csv_file.close()
 	print("?--------------------have:%f%%------------------------------"%pre)
 
-pre_process(loadpath+load_filename)
+#pre_process(loadpath+load_filename)
 
 def build_graph(filname):
 	ip_list = []
@@ -143,7 +143,7 @@ def build_graph(filname):
 	print("done")
 	
 	return i
-
+'''
 ip_num = build_graph(save_filename)
 with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
@@ -159,7 +159,7 @@ def build_scale_graph():
 	print("done")
 
 build_scale_graph()
-
+'''
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
 	ip_dic = {}
@@ -217,6 +217,8 @@ def build_features(ip_num, features_num):
 		pkl.dump(features_martix,f)
 		print("done")
 
+with open("ip_num",'r') as f:
+	ip_num = pkl.load(f)
 build_features(ip_num,50)
 
 def build_one_hot_labels(ip_num):
