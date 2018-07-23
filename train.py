@@ -115,11 +115,12 @@ epochs = 100
 for i in range(epochs):
 	t = time.time()
 	sess.run(train_step,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
+	'''
 	train_loss = sess.run(loss, feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
 	train_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
 	train_acc = sess.run(train_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
 	
-
+	
 	test_loss = sess.run(loss, feed_dict={support:sparse_martix,x:features,labels:labels_all})
 	test_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
 	test_acc = sess.run(test_acc_tf,feed_dict={support:sparse_martix,x:features,labels:labels_all})
@@ -128,7 +129,7 @@ for i in range(epochs):
 	print("Epoch:",'%04d'%(i+1)," train_loss=","{}".format(train_loss),
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
 		"test_acc=","{}".format(test_acc),"time=","{}".format(time.time()-t))
-
+	'''
 	allb = 0
 	cout = 0
 	v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
