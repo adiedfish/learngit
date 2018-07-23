@@ -131,11 +131,12 @@ for i in range(epochs):
 
 allb = 0
 cout = 0
+v = sees.run(predict,feed_dict={support:sparse_martix,x:features})
 for i in xrange(len(labels_all)):
 	if labels_all[i][1] == 1:
 		allb += 1
-		v = sess.run(predict,feed_dict={support:sparse_martix,x:features})[i]
-		ind = sess.run(tf.argmax(v))
+		#v = sees.run(predict,feed_dict={support:sparse_martix,x:features})[i]
+		ind = sess.run(tf.argmax(v[i]))
 		if ind == 1:
 			cout += 1
 	if allb%10 == 0:
@@ -144,8 +145,28 @@ for i in xrange(len(labels_all)):
 		sys.stdout.flush()
 sys.stdout.write("%d labels done"%allb)
 sys.stdout.flush()
-print("blacklist predict pro:%.4f"%(float(cout)/float(allb)))
+rec = float(cout)/float(allb)
+print("blacklist predict pro:%.4f"%(rec))
 
+allb = 0
+cout = 0
+for i in xrange(len(labels_all)):
+	ind = sess.run(tf.argmax(v[i]))
+	if ind == 1:
+		allb += 1
+		if labels_all[i][1] == 1:
+			cout += 1
+	if allb%10 == 0:
+		sys.stdout.write("%d labels done"%allb)
+		sys.stdout.write('\r')
+		sys.stdout.flush()
+sys.stdout.write("%d labels done"%allb)
+sys.stdout.flush()
+acc = float(cout)/float(allb)
+print("blacklist predict pro:%.4f"%(acc))
+
+f1_soc = 2*(rec*acc)/(rec+acc)
+print(f1_soc)
 print("Optimization Finished")
 
 

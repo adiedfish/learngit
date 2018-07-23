@@ -157,8 +157,7 @@ def build_scale_graph():
 		pkl.dump(sparse_m,f)
 	print("done")
 
-build_scale_graph()
-
+#build_scale_graph()
 
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
