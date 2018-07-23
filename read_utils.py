@@ -78,7 +78,7 @@ def pre_process(filname):
 			save_csv_file.close()
 	print("?--------------------have:%f%%------------------------------"%pre)
 
-pre_process(loadpath+load_filename)
+#pre_process(loadpath+load_filename)
 
 def build_graph(filname):
 	ip_list = []
@@ -143,12 +143,12 @@ def build_graph(filname):
 	print("done")
 	
 	return i
-
+'''
 ip_num = build_graph(save_filename)
 with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
 print("ip_num save")
-
+'''
 def build_scale_graph():
 	with open(sparse_save_filename,'r') as f:
 		sparse_m = pkl.load(f)
@@ -158,7 +158,7 @@ def build_scale_graph():
 		pkl.dump(sparse_m,f)
 	print("done")
 
-build_scale_graph()
+#build_scale_graph()
 
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
@@ -174,45 +174,49 @@ def build_features(ip_num, features_num):
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
 		print("begin")
-		for row in csv_file:
-			source_index = ip_dic[row[2]]
-			aim_index = ip_dic[row[3]]
+		try:
+			for row in csv_file:
+				source_index = ip_dic[row[2]]
+				aim_index = ip_dic[row[3]]
 
-			#端口流量占比先不考虑
-			features_martix[source_index][0] += float(row[11])
-			features_martix[source_index][1] += float(row[10])
-			features_martix[source_index][4] += 1  #端口总数
-			features_martix[source_index][5] += 1
-			features_martix[source_index][6] += 1
-			if row[6] in features_dic:
-				features_martix[source_index][features_dic[row[6]]] += float(row[11])   #各协议占比 
-			#features_martix[source_index][18]
-			#features_martix[source_index][24]
-			if float(row[1]) < features_martix[source_index][46] or features_martix[source_index][46] == 0:
-				features_martix[source_index][46] = float(row[1])
-			if float(row[1]) > features_martix[source_index][47]:
-				features_martix[source_index][47] = float(row[1])
+				#端口流量占比先不考虑
+				features_martix[source_index][0] += float(row[11])
+				features_martix[source_index][1] += float(row[10])
+				features_martix[source_index][4] += 1  #端口总数
+				features_martix[source_index][5] += 1
+				features_martix[source_index][6] += 1
+				if row[6] in features_dic:
+					features_martix[source_index][features_dic[row[6]]] += float(row[11])   #各协议占比 
+				#features_martix[source_index][18]
+				#features_martix[source_index][24]
+				if float(row[1]) < features_martix[source_index][46] or features_martix[source_index][46] == 0:
+					features_martix[source_index][46] = float(row[1])
+				if float(row[1]) > features_martix[source_index][47]:
+					features_martix[source_index][47] = float(row[1])
 
-			features_martix[aim_index][2] += float(row[11])
-			features_martix[aim_index][3] += float(row[10])
-			features_martix[aim_index][7] += 1
-			features_martix[aim_index][8] += 1
-			features_martix[aim_index][9] += 1
-			if row[6] in features_dic:
-				features_martix[aim_index][features_dic[row[6]]] += float(row[11])
-			#features_martix[aim_index][36]
-			#features_martix[aim_index][41]
-			if float(row[1]) < features_martix[aim_index][48] or features_martix[aim_index][48] == 0:
-				features_martix[aim_index][48] = float(row[1])
-			if float(row[1]) > features_martix[aim_index][49]:
-				features_martix[aim_index][49] = float(row[1])
-			row_cout += 1
-			if row_cout%100 == 0:
-				sys.stdout.write("%d rows done"%row_cout)
-				sys.stdout.write("\r")
-				sys.stdout.flush()
-		sys.stdout.write("%d rows done"%row_cout)
-		sys.stdout.flush()
+				features_martix[aim_index][2] += float(row[11])
+				features_martix[aim_index][3] += float(row[10])
+				features_martix[aim_index][7] += 1
+				features_martix[aim_index][8] += 1
+				features_martix[aim_index][9] += 1
+				if row[6] in features_dic:
+					features_martix[aim_index][features_dic[row[6]]] += float(row[11])
+				#features_martix[aim_index][36]
+				#features_martix[aim_index][41]
+				if float(row[1]) < features_martix[aim_index][48] or features_martix[aim_index][48] == 0:
+					features_martix[aim_index][48] = float(row[1])
+				if float(row[1]) > features_martix[aim_index][49]:
+					features_martix[aim_index][49] = float(row[1])
+				row_cout += 1
+				if row_cout%100 == 0:
+					sys.stdout.write("%d rows done"%row_cout)
+					sys.stdout.write("\r")
+					sys.stdout.flush()
+			sys.stdout.write("%d rows done"%row_cout)
+			sys.stdout.flush()
+		except:
+			sys.stdout.write("%d rows done"%row_cout)
+			sys.stdout.flush()
 	with open(features_save_filename,'w+') as f:
 		pkl.dump(features_martix,f)
 		print("done")
