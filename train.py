@@ -130,6 +130,7 @@ for i in range(epochs):
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
 		"test_acc=","{}".format(test_acc),"time=","{}".format(time.time()-t))
 	'''
+	print("Epoch: %04d"%(i+1))
 	allb = 0
 	cout = 0
 	v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
@@ -157,6 +158,7 @@ for i in range(epochs):
 
 	f1_soc = 2*(rec*acc)/(rec+acc)
 	print(f1_soc)
+	print("-------------------------------------")
 
 '''
 allb = 0
