@@ -5,6 +5,7 @@ from __future__ import print_function
 
 import numpy as np 
 import pickle as pkl
+import cPickle
 import csv
 import scipy.sparse as sp
 import sys
@@ -226,20 +227,20 @@ def build_port_flow(ip_num):
 				sys.stdout.flush()
 		sys.stdout.write("%d rows write"%cout)
 		sys.stdout.flush()
-
+	
 	with open(source_port_dic_save_filename,'w+') as f:
-		pkl.dump(source_port_dic,f)
+		cPickle.dump(source_port_dic,f)
 	print("save source_port_dic...")
 	with open(aim_port_dic_save_filename,'w+') as f:
-		pkl.dump(aim_port_dic,f)
+		cPickle.dump(aim_port_dic,f)
 	print("save aim_port_dic...")
 	with open(source_port_dic_2_save_filename,'w+') as f:
-		pkl.dump(source_port_dic_2,f)
+		cPickle.dump(source_port_dic_2,f)
 	print("save source_port_dic_2...")
 	with open(aim_port_dic_2_save_filename,'w+') as f:
-		pkl.dump(aim_port_dic_2,f)
+		cPickle.dump(aim_port_dic_2,f)
 	print("save aim_port_dic_2...")
-
+	
 	ip_dic = {}
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
