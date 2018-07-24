@@ -397,7 +397,7 @@ def build_features(ip_num, features_num):
 					sys.stdout.write("%d rows done"%row_cout)
 					sys.stdout.write("\r")
 					sys.stdout.flush()
-			sys.stdout.write("%d rows done"%row_cout)
+			sys.stdout.write("%d rows done(build features)"%row_cout)
 			sys.stdout.flush()
 		except:
 			sys.stdout.write("%d rows done"%row_cout)
