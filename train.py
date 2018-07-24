@@ -73,6 +73,7 @@ sparse_martix = preprocess_adj(sparse)
 #sparse_martix = sparse_martix.dot(sparse_martix)
 #sparse_martix = sparse
 
+
 support = tf.sparse_placeholder(tf.float32)
 x = tf.placeholder(tf.float32)
 labels = tf.placeholder(tf.float32)
@@ -130,7 +131,7 @@ for i in range(epochs):
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
 		"test_acc=","{}".format(test_acc),"time=","{}".format(time.time()-t))
 	'''
-	print("Epoch: %04d"%(i+1))
+	#print("Epoch: %04d"%(i+1))
 	allb = 0
 	cout = 0
 	v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
