@@ -90,7 +90,7 @@ def pre_process(filname):
 			save_csv_file.close()
 	print("?--------------------have:%f%%------------------------------"%pre)
 
-pre_process(loadpath+load_filename)
+#pre_process(loadpath+load_filename)
 
 def build_graph(filname):
 	ip_list = []
@@ -156,12 +156,12 @@ def build_graph(filname):
 	
 	return i
 
-ip_num = build_graph(save_filename)
-
+#ip_num = build_graph(save_filename)
+'''
 with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
 print("ip_num save")
-
+'''
 def build_scale_graph():
 	with open(sparse_save_filename,'r') as f:
 		sparse_m = pkl.load(f)
@@ -171,7 +171,7 @@ def build_scale_graph():
 		pkl.dump(sparse_m,f)
 	print("scale done")
 
-build_scale_graph()
+#build_scale_graph()
 
 def build_port_flow(ip_num):
 	source_port_dic = {}
@@ -314,7 +314,7 @@ def build_port_flow(ip_num):
 		pkl.dump(sort_aim_list,f)
 		print("sort aim list save")
 	with open(source_port_list_2_save_filename,'w+') as f:
-		pkl.dumo(sort_source_list_2,f)
+		pkl.dump(sort_source_list_2,f)
 		print("sort source list 2 save!")
 	with open(aim_port_list_2_save_filename,'w+') as f:
 		pkl.dump(sort_aim_list_2,f)
