@@ -44,7 +44,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 150000000:
+			if cout > 120000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -66,7 +66,7 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if cout_sumn > 150000000:
+				if cout_sumn > 120000000:
 					break
 				try:
 					if row[3] in ip_set:
@@ -164,7 +164,7 @@ def build_scale_graph():
 	sparse_m = sparse_m/m
 	with open(scale_sparse_save_filename, 'w+') as f:
 		pkl.dump(sparse_m,f)
-	print("done")
+	print("scale done")
 
 build_scale_graph()
 
@@ -176,46 +176,46 @@ def build_port_flow(ip_num):
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
 		print("build port flow begin!")
-	for row in csv_file:
-		if row[2] in source_port_dic:
-			if row[4] in source_port_dic[row[2]]:
-				source_port_dic[row[2]][row[4]] += float(row[11])
+		for row in csv_file:
+			if row[2] in source_port_dic:
+				if row[4] in source_port_dic[row[2]]:
+					source_port_dic[row[2]][row[4]] += float(row[11])
+				else:
+					source_port_dic[row[2]][row[4]] = float(row[11])
 			else:
-				source_port_dic[row[2]][row[4]] = float(row[11])
-		else:
-			dic = {}
-			dic[row[4]] = float(row[11])
-			source_port_dic[row[2]] = dic
+				dic = {}
+				dic[row[4]] = float(row[11])
+				source_port_dic[row[2]] = dic
 		
-		if row[2] in source_port_dic_2:
-			if row[5] in source_port_dic_2[row[5]]:
-				source_port_dic_2[row[2]][row[5]] += float(row[11])
+			if row[2] in source_port_dic_2:
+				if row[5] in source_port_dic_2[row[5]]:
+					source_port_dic_2[row[2]][row[5]] += float(row[11])
+				else:
+					source_port_dic_2[row[2]][row[5]] = float(row[11])
 			else:
-				source_port_dic_2[row[2]][row[5]] = float(row[11])
-		else:
-			dic = {}
-			dic[row[5]] = float(row[11])
-			source_port_dic_2[row[2]] = dic
+				dic = {}
+				dic[row[5]] = float(row[11])
+				source_port_dic_2[row[2]] = dic
 		
-		if row[3] in aim_port_dic:
-			if row[5] in aim_port_dic[row[3]]:
-				aim_port_dic[row[3]][row[5]] += float(row[11])
+			if row[3] in aim_port_dic:
+				if row[5] in aim_port_dic[row[3]]:
+					aim_port_dic[row[3]][row[5]] += float(row[11])
+				else:
+					aim_port_dic[row[3]][row[5]] = float(row[11])
 			else:
-				aim_port_dic[row[3]][row[5]] = float(row[11])
-		else:
-			dic = {}
-			dic[row[5]] = float(row[11])
-			aim_port_dic[row[3]] = dic
+				dic = {}
+				dic[row[5]] = float(row[11])
+				aim_port_dic[row[3]] = dic
 
-		if row[3] in aim_port_dic_2:
-			if row[4] in aim_port_dic_2[row[3]]:
-				aim_port_dic_2[row[3]][row[4]] += float(row[11])
+			if row[3] in aim_port_dic_2:
+				if row[4] in aim_port_dic_2[row[3]]:
+					aim_port_dic_2[row[3]][row[4]] += float(row[11])
+				else:
+					aim_port_dic_2[row[3]][row[4]] = float(row[11])
 			else:
-				aim_port_dic_2[row[3]][row[4]] = float(row[11])
-		else:
-			dic = {}
-			dic[row[4]] = float(row[11])
-			aim_port_dic_2[row[3]] = dic
+				dic = {}
+				dic[row[4]] = float(row[11])
+				aim_port_dic_2[row[3]] = dic
 	'''
 	with open(source_port_dic_save_filename,"w+") as f:
 		pkl.dump(source_port_dic,f)
@@ -335,7 +335,7 @@ def build_features(ip_num, features_num):
 		pkl.dump(features_martix,f)
 		print("done")
 
-#build_features(ip_num,50)
+build_features(ip_num,50)
 
 def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist, anomaly-spam(稀少)（干脆去掉做二分类）
@@ -376,7 +376,7 @@ def build_one_hot_labels(ip_num):
 		pkl.dump(one_hot_labels,f)
 		print("done")
 
-#build_one_hot_labels(ip_num)
+build_one_hot_labels(ip_num)
 
 def build_one_hot_labels_for_test(ip_num):
 	one_hot_labels_for_test = np.zeros((ip_num,3))
@@ -413,7 +413,7 @@ def build_one_hot_labels_for_test(ip_num):
  		pkl.dump(one_hot_labels_for_test,f)
  		print("done")
 
-#build_one_hot_labels_for_test(ip_num)
+build_one_hot_labels_for_test(ip_num)
 
 def normalize_data(ip_num, features_num):
 	n_features_martix = features_martix = np.zeros((ip_num,features_num))
@@ -430,7 +430,7 @@ def normalize_data(ip_num, features_num):
 		pkl.dump(n_features_martix,f)
 		print("done")
 
-#normalize_data(ip_num,50)
+normalize_data(ip_num,50)
 
 
 
