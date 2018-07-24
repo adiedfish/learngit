@@ -9,6 +9,7 @@ import cPickle
 import csv
 import scipy.sparse as sp
 import sys
+import heapq
 
 loadpath = "../"
 load_filename = "march.week3.csv.uniqblacklistremoved"
@@ -47,7 +48,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 100000000:
+			if cout > 60000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -69,7 +70,7 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if cout_sumn > 100000000:
+				if cout_sumn > 60000000:
 					break
 				try:
 					if row[3] in ip_set:
@@ -227,6 +228,21 @@ def build_port_flow(ip_num):
 				sys.stdout.flush()
 		sys.stdout.write("%d rows write"%cout)
 		sys.stdout.flush()
+	
+	add_dic = {-1:0,-2:0,-3:0,-4:0,-5:0}
+	for key in source_port_dic:
+		for k in add_dic:
+			source_port_dic[key][k] = add_dic[k]
+	for key in source_port_dic_2:
+		for k in add_dic:
+			source_port_dic_2[key][k] = add_dic[k]
+	for key in aim_port_dic:
+		for k in add_dic:
+			aim_port_dic[key][k] = add_dic[k]
+	for key in aim_port_dic_2:
+		for k in add_dic:
+			aim_port_dic_2[key][k] = add_dic[k]
+
 	'''
 	with open(source_port_dic_save_filename,'w+') as f:
 		cPickle.dump(source_port_dic,f)
@@ -252,13 +268,8 @@ def build_port_flow(ip_num):
 	
 	cout = 0
 	for key in source_port_dic:
-		for i in range(5):
-			if source_port_dic[key]:
-				maxindex = max(source_port_dic[key],key = source_port_dic[key].get)
-				sort_source_list[ip_dic[key]][i] = source_port_dic[key][maxindex]
-				source_port_dic[key].pop(maxindex)
-			else:
-				break
+		largest_5 = heapq.nlargest(5,source_port_dic[key].values())
+		sort_source_list[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
@@ -267,13 +278,8 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in aim_port_dic:
-		for i in range(5):
-			if aim_port_dic[key]:
-				maxindex = max(aim_port_dic[key],key = aim_port_dic[key].get)
-				sort_aim_list[ip_dic[key]][i] = aim_port_dic[key][maxindex]
-				aim_port_dic[key].pop(maxindex)
-			else:
-				break
+		largest_5 = heapq.nlargest(5,aim_port_dic[key].values())
+		sort_aim_list[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
@@ -282,13 +288,8 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in source_port_dic_2:
-		for i in range(5):
-			if source_port_dic_2[key]:
-				maxindex = max(source_port_dic_2[key],key = source_port_dic_2[key].get)
-				sort_source_list_2[ip_dic[key]][i] = source_port_dic_2[key][maxindex]
-				source_port_dic_2[key].pop(maxindex)
-			else:
-				break
+		largest_5 = heapq.nlargest(5,source_port_dic_2[key].values())
+		sort_source_list_2[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
@@ -297,18 +298,14 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in aim_port_dic_2:
-		for i in range(5):
-			if aim_port_dic_2[key]:
-				maxindex = max(aim_port_dic_2[key],key = aim_port_dic_2[key].get)
-				sort_aim_list_2[ip_dic[key]][i] = aim_port_dic_2[key][maxindex]
-				aim_port_dic_2[key].pop(maxindex)
-			else:
-				break
+		largest_5 = max(5,aim_port_dic_2[key].values())
+		sort_aim_list_2[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 	print("4 is done...")
+
 	with open(source_port_list_save_filename,'w+') as f:
 		pkl.dump(sort_source_list,f)
 		print("sort source list save!")
@@ -325,13 +322,13 @@ def build_port_flow(ip_num):
 with open("ip_num",'r') as f:
 	ip_num = pkl.load(f)
 
-#build_port_flow(ip_num)
+build_port_flow(ip_num)
 
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
 	ip_dic = {}
 	features_dic = {'IPv6':10, 'RSVP':11, 'GRE':12, 'ICMP':13, 'TCP':14, 'UDP':15, 'IPIP':16, 'ESP':17}
-	'''
+	
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
 		print("ip_dic done load...(build_features)")
@@ -355,7 +352,7 @@ def build_features(ip_num, features_num):
 			features_martix[i][36+j] = aim_port_list_2[i][j]
 			features_martix[i][41+j] = aim_port_list_[i][j]
 	print("port flow set done!")
-	'''
+	
 	row_cout = 0
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
