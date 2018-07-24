@@ -143,6 +143,7 @@ for i in range(epochs):
 			#ind = sess.run(tf.argmax(v[i]))
 			if ind_all[i] == 1:
 				cout += 1
+	print(cout)
 	rec = float(cout)/float(allb)
 	print("blacklist predict pro:%.4f"%(rec))
 

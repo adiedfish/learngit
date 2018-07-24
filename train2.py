@@ -132,7 +132,7 @@ epochs = 100
 for i in range(epochs):
 	t = time.time()
 	sess.run(train_step_background,feed_dict={support:sparse_martix,x:features,labels_background:labels_only_background})
-	sess.run(train_step_blacklist,feed_dict={support:sparse_martix,x:features,labels_background:labels_only_blacklist})
+	sess.run(train_step_blacklist,feed_dict={support:sparse_martix,x:features,labels_blacklist:labels_only_blacklist})
 	'''
 	train_loss = sess.run(loss, feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
 	train_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
@@ -148,7 +148,7 @@ for i in range(epochs):
 		"train_acc=","{}".format(train_acc),"test_loss=","{}".format(test_loss),
 		"test_acc=","{}".format(test_acc),"time=","{}".format(time.time()-t))
 	'''
-	print("Epoch: %04d"%(i+1))
+	#print("Epoch: %04d"%(i+1))
 	allb = 0
 	cout = 0
 	v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
@@ -160,6 +160,7 @@ for i in range(epochs):
 			#ind = sess.run(tf.argmax(v[i]))
 			if ind_all[i] == 1:
 				cout += 1
+	print(cout)
 	rec = float(cout)/float(allb)
 	print("rec:%.4f"%(rec))
 
