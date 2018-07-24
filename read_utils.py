@@ -241,12 +241,13 @@ def build_port_flow(ip_num):
 	
 	cout = 0
 	for key in source_port_dic:
-		one_list= sorted(list(source_port_dic[key].values()),reverse=True)
-		llen = 5
-		if llen > len(one_list):
-			llen = len(one_list)
-		for i in range(llen):
-			sort_source_list[ip_dic[key]][i] = one_list[i]
+		for i in range(5):
+			if source_port_dic[key]:
+				maxindex = max(source_port_dic[key],key = source_port_dic[key].get)
+				sort_source_list[ip_dic[key]][i] = source_port_dic[maxindex]
+				source_port_dic.pop(maxindex)
+			else:
+				break
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
@@ -255,12 +256,13 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in aim_port_dic:
-		one_list = sorted(list(aim_port_dic[key].values()),reverse=True)
-		llen = 5
-		if llen > len(one_list):
-			llen = len(one_list)
-		for i in range(llen):
-			sort_aim_list[ip_dic[key]][i] = one_list[i]
+		for i in range(5):
+			if aim_port_dic[key]:
+				maxindex = max(aim_port_dic[key],key = aim_port_dic[key].get)
+				sort_aim_list[ip_dic[key]][i] = aim_port_dic[maxindex]
+				aim_port_dic.pop(maxindex)
+			else:
+				break
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
@@ -269,12 +271,13 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in source_port_dic_2:
-		one_list = sorted(list(source_port_dic_2[key].values()),reverse=True)
-		llen = 5
-		if llen > len(one_list):
-			llen = len(one_list)
-		for i in range(llen):
-			sort_source_list_2[ip_dic[key]][i] = one_list[i]
+		for i in range(5):
+			if source_port_dic_2[key]:
+				maxindex = max(source_port_dic_2[key],key = source_port_dic_2[key].get)
+				sort_source_list_2[ip_dic[key]][i] = source_port_dic_2[maxindex]
+				source_port_dic_2.pop(maxindex)
+			else:
+				break
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
@@ -283,12 +286,13 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in aim_port_dic_2:
-		one_list = sorted(list(aim_port_dic_2[key].values()),reverse=True)
-		llen = 5
-		if llen > len(one_list):
-			llen = len(one_list)
-		for i in range(llen):
-			sort_aim_list_2[ip_dic[key]][i] = one_list[i]
+		for i in range(5):
+			if aim_port_dic_2[key]:
+				maxindex = max(aim_port_dic_2[key],key = aim_port_dic_2[key].get)
+				sort_aim_list_@[ip_dic[key]][i] = aim_port_dic_2[maxindex]
+				aim_port_dic_2.pop(maxindex)
+			else:
+				break
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
