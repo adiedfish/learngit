@@ -75,9 +75,9 @@ sparse_martix = preprocess_adj(sparse)
 
 with open("ip_num",'r') as f:
 	ip_num = pkl.load(f)
-labels_only_background = np.zeros(ip_num,3)
+labels_only_background = np.zeros((ip_num,3))
 background_cout = 0
-labels_only_blacklist = np.zeros(ip_num,3)
+labels_only_blacklist = np.zeros((ip_num,3))
 blacklist_cout = 0
 for i in xrange(len(labels_for_test)):
 	if labels_for_test[i][0] == 1:
@@ -161,7 +161,7 @@ for i in range(epochs):
 			if ind_all[i] == 1:
 				cout += 1
 	rec = float(cout)/float(allb)
-	print("blacklist predict pro:%.4f"%(rec))
+	print("rec:%.4f"%(rec))
 
 	allb = 0
 	cout = 0
@@ -172,7 +172,7 @@ for i in range(epochs):
 			if labels_all[i][1] == 1:
 				cout += 1
 	acc = float(cout)/float(allb)
-	print("blacklist predict pro:%.4f"%(acc))
+	print("acc:%.4f"%(acc))
 
 	f1_soc = 2*(rec*acc)/(rec+acc)
 	print(f1_soc)
