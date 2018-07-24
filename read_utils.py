@@ -371,6 +371,7 @@ def build_features(ip_num, features_num):
 				features_martix[source_index][6] += 1
 				if row[6] in features_dic:
 					features_martix[source_index][features_dic[row[6]]] += float(row[11])
+					print(features_martix[source_index][features_dic[row[6]]]) 
 				if float(row[1]) < features_martix[source_index][46] or features_martix[source_index][46] == 0:
 					features_martix[source_index][46] = float(row[1])
 				if float(row[1]) > features_martix[source_index][47]:
@@ -385,7 +386,6 @@ def build_features(ip_num, features_num):
 				features_martix[aim_index][9] += 1
 				if row[6] in features_dic:
 					features_martix[aim_index][features_dic[row[6]]+18] += float(row[11])
-					print(features_martix[aim_index][features_dic[row[6]]+18])
 				#features_martix[aim_index][36]
 				#features_martix[aim_index][41]
 				if float(row[1]) < features_martix[aim_index][48] or features_martix[aim_index][48] == 0:
