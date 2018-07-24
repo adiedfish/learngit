@@ -176,6 +176,7 @@ def build_port_flow(ip_num):
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
 		print("build port flow begin!")
+		cout = 0
 		for row in csv_file:
 			if row[2] in source_port_dic:
 				if row[4] in source_port_dic[row[2]]:
@@ -216,6 +217,13 @@ def build_port_flow(ip_num):
 				dic = {}
 				dic[row[4]] = float(row[11])
 				aim_port_dic_2[row[3]] = dic
+			cout += 1
+			if cout%10000 == 0:
+				sys.stdout.write("%d rows write"%cout)
+				sys.stdout.write("\r")
+				sys.stdout.flush()
+		sys.stdout.write("%d rows write"%cout)
+		sys.stdout.flush()
 	'''
 	with open(source_port_dic_save_filename,"w+") as f:
 		pkl.dump(source_port_dic,f)
@@ -234,22 +242,22 @@ def build_port_flow(ip_num):
 		one_list= sorted(list(source_port_dic[key].values()),reverse=True)
 		for i in range(len(one_list)):
 			sort_source_list[ip_dic[key]][i] = one_list[i]
-	
+	print("1 is done...")
 	for key in aim_port_dic:
 		one_list = sorted(list(aim_port_dic[key].values()),reverse=True)
 		for i in range(len(one_list)):
 			sort_aim_list[ip_dic[key]][i] = one_list[i]
-	
+	print("2 is done...")
 	for key in source_port_dic_2:
 		one_list = sorted(list(source_port_dic_2[key].values()),reverse=True)
 		for i in range(len(one_list)):
 			sort_source_list_2[ip_dic[key]][i] = one_list[i]
-
+	print("3 is done...")
 	for key in aim_port_dic_2:
 		one_list = sorted(list(aim_port_dic_2[key].values()),reverse=True)
 		for i in range(len(one_list)):
 			sort_aim_list_2[ip_dic[key]][i] = one_list[i]
-
+	print("4 is done...")
 	with open(source_port_list_save_filename,'w+') as f:
 		pkl.dump(sort_source_list,f)
 		print("sort source list save!")
