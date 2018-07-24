@@ -228,7 +228,7 @@ def build_port_flow(ip_num):
 		print("ip_dic done load...(build_port_flow)")
 	sort_source_list = np.zeros((ip_num,5))
 	sort_aim_list = np.zeros((ip_num,5))
-	sort_source_list_2 = np,zeros((ip_num,5))
+	sort_source_list_2 = np.zeros((ip_num,5))
 	sort_aim_list_2 =np.zeros((ip_num,5))
 	for key in source_port_dic:
 		one_list= sorted(list(source_port_dic[key].values()),reverse=True)
