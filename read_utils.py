@@ -247,6 +247,7 @@ def build_port_flow(ip_num):
 			llen = len(one_list)
 		for i in range(llen):
 			sort_source_list[ip_dic[key]][i] = one_list[i]
+		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
@@ -260,6 +261,7 @@ def build_port_flow(ip_num):
 			llen = len(one_list)
 		for i in range(llen):
 			sort_aim_list[ip_dic[key]][i] = one_list[i]
+		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
@@ -273,6 +275,7 @@ def build_port_flow(ip_num):
 			llen = len(one_list)
 		for i in range(llen):
 			sort_source_list_2[ip_dic[key]][i] = one_list[i]
+		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
@@ -286,6 +289,7 @@ def build_port_flow(ip_num):
 			llen = len(one_list)
 		for i in range(llen):
 			sort_aim_list_2[ip_dic[key]][i] = one_list[i]
+		cout += 1
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
