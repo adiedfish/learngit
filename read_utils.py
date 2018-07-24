@@ -226,10 +226,10 @@ def build_port_flow(ip_num):
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
 		print("ip_dic done load...(build_port_flow)")
-	sort_source_list = np.zeros(ip_num,5)
-	sort_aim_list = np.zeros(ip_num,5)
-	sort_source_list_2 = np,zeros(ip_num,5)
-	sort_aim_list_2 =np.zeros(ip_num,5)
+	sort_source_list = np.zeros((ip_num,5))
+	sort_aim_list = np.zeros((ip_num,5))
+	sort_source_list_2 = np,zeros((ip_num,5))
+	sort_aim_list_2 =np.zeros((ip_num,5))
 	for key in source_port_dic:
 		one_list= sorted(list(source_port_dic[key].values()),reverse=True)
 		for i in range(len(one_list)):
@@ -290,7 +290,7 @@ def build_features(ip_num, features_num):
 		print("aim port list 2 done load...")
 	
 	row_cout = 0
-	for i in xrange(len(source_port_list))
+	for i in xrange(len(source_port_list)):
 		for j in range(5):   
 			features_martix[i][18+j] = source_port_list[i][j]
 			features_martix[i][23+j] = source_port_list_2[i][j]
