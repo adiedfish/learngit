@@ -44,7 +44,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 120000000:
+			if cout > 100000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -66,7 +66,7 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if cout_sumn > 120000000:
+				if cout_sumn > 100000000:
 					break
 				try:
 					if row[3] in ip_set:
@@ -188,7 +188,7 @@ def build_port_flow(ip_num):
 				source_port_dic[row[2]] = dic
 		
 			if row[2] in source_port_dic_2:
-				if row[5] in source_port_dic_2[row[5]]:
+				if row[5] in source_port_dic_2[row[2]]:
 					source_port_dic_2[row[2]][row[5]] += float(row[11])
 				else:
 					source_port_dic_2[row[2]][row[5]] = float(row[11])
@@ -262,6 +262,7 @@ def build_port_flow(ip_num):
 	with open(aim_port_list_2_save_filename,'w+') as f:
 		pkl.dump(sort_aim_list_2,f)
 		print("sort aim list 2 save!")
+
 with open("ip_num",'r') as f:
 	ip_num = pkl.load(f)
 
@@ -281,8 +282,22 @@ def build_features(ip_num, features_num):
 	with open(aim_port_list_save_filename,'r') as f:
 		aim_port_list = pkl.load(f)
 		print("aim port list done load...")
+	with open(source_port_list_2_save_filename,'r') as f:
+		source_port_list_2 = pkl.load(f)
+		print("source port list 2 done load...")
+	with open(aim_port_list_2_save_filename,'r') as f:
+		source_port_list_2 = pkl.load(f)
+		print("aim port list 2 done load...")
 	
 	row_cout = 0
+	for i in xrange(len(source_port_list))
+		for j in range(5):   
+			features_martix[i][18+j] = source_port_list[i][j]
+			features_martix[i][23+j] = source_port_list_2[i][j]
+			features_martix[i][36+j] = aim_port_list_2[i][j]
+			features_martix[i][41+j] = aim_port_list_[i][j]
+	print("port flow set done!")
+
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
 		print("begin")
@@ -298,9 +313,6 @@ def build_features(ip_num, features_num):
 				features_martix[source_index][6] += 1
 				if row[6] in features_dic:
 					features_martix[source_index][features_dic[row[6]]] += float(row[11])
-				for i in range(5):   
-					features_martix[source_index][18+i] = source_port_list[source_index][i]
-					features_martix[source_index][24+i] = aim_port_list[source_index][i]
 				if float(row[1]) < features_martix[source_index][46] or features_martix[source_index][46] == 0:
 					features_martix[source_index][46] = float(row[1])
 				if float(row[1]) > features_martix[source_index][47]:
@@ -333,7 +345,7 @@ def build_features(ip_num, features_num):
 			sys.stdout.flush()
 	with open(features_save_filename,'w+') as f:
 		pkl.dump(features_martix,f)
-		print("done")
+		print("features martix bulid done")
 
 build_features(ip_num,50)
 
