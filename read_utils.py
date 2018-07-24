@@ -247,10 +247,9 @@ def build_port_flow(ip_num):
 			llen = len(one_list)
 		for i in range(llen):
 			sort_source_list[ip_dic[key]][i] = one_list[i]
-		if cout % 100 == 0:
-			sys.stdout.write("%d key write done"%cout)
-			sys.stdout.write("\r")
-			sys.stdout.flush()
+		sys.stdout.write("%d key write done"%cout)
+		sys.stdout.write("\r")
+		sys.stdout.flush()
 	print("1 is done...")
 
 	cout = 0
@@ -261,10 +260,9 @@ def build_port_flow(ip_num):
 			llen = len(one_list)
 		for i in range(llen):
 			sort_aim_list[ip_dic[key]][i] = one_list[i]
-		if cout % 100 == 0:
-			sys.stdout.write("%d key write done"%cout)
-			sys.stdout.write("\r")
-			sys.stdout.flush()
+		sys.stdout.write("%d key write done"%cout)
+		sys.stdout.write("\r")
+		sys.stdout.flush()
 	print("2 is done...")
 
 	cout = 0
@@ -275,10 +273,9 @@ def build_port_flow(ip_num):
 			llen = len(one_list)
 		for i in range(llen):
 			sort_source_list_2[ip_dic[key]][i] = one_list[i]
-		if cout % 100 == 0:
-			sys.stdout.write("%d key write done"%cout)
-			sys.stdout.write("\r")
-			sys.stdout.flush()
+		sys.stdout.write("%d key write done"%cout)
+		sys.stdout.write("\r")
+		sys.stdout.flush()
 	print("3 is done...")
 
 	cout = 0
@@ -289,10 +286,9 @@ def build_port_flow(ip_num):
 			llen = len(one_list)
 		for i in range(llen):
 			sort_aim_list_2[ip_dic[key]][i] = one_list[i]
-		if cout % 100 == 0:
-			sys.stdout.write("%d key write done"%cout)
-			sys.stdout.write("\r")
-			sys.stdout.flush()
+		sys.stdout.write("%d key write done"%cout)
+		sys.stdout.write("\r")
+		sys.stdout.flush()
 	print("4 is done...")
 	with open(source_port_list_save_filename,'w+') as f:
 		pkl.dump(sort_source_list,f)
