@@ -157,6 +157,7 @@ def build_graph(filname):
 	return i
 
 ip_num = build_graph(save_filename)
+
 with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
 print("ip_num save")
@@ -298,7 +299,7 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in aim_port_dic_2:
-		largest_5 = max(5,aim_port_dic_2[key].values())
+		largest_5 = heapq.nlargest(5,aim_port_dic_2[key].values())
 		sort_aim_list_2[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done"%cout)
