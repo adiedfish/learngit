@@ -227,7 +227,7 @@ def build_port_flow(ip_num):
 				sys.stdout.flush()
 		sys.stdout.write("%d rows write"%cout)
 		sys.stdout.flush()
-	
+	'''
 	with open(source_port_dic_save_filename,'w+') as f:
 		cPickle.dump(source_port_dic,f)
 	print("save source_port_dic...")
@@ -240,7 +240,7 @@ def build_port_flow(ip_num):
 	with open(aim_port_dic_2_save_filename,'w+') as f:
 		cPickle.dump(aim_port_dic_2,f)
 	print("save aim_port_dic_2...")
-	
+	'''
 	ip_dic = {}
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
