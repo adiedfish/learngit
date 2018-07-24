@@ -27,6 +27,14 @@ n_features_save_filename = "n_features_martix"
 labels_save_filename = "labers"
 labels_for_test_save_filename = "labels_for_test"
 
+source_port_dic_save_filename = "source_port_dic"
+aim_port_dic_save_filename = "aim_port_dic"
+
+source_port_list_save_filename = "source_port_list"
+source_port_list_2_save_filename = "source_port_list_2"
+aim_port_list_save_filename = "aim_port_list"
+aim_port_list_2_save_filename = "aim_port_list_2"
+
 
 def pre_process(filname):
 	ip_set = set([])
@@ -160,15 +168,119 @@ def build_scale_graph():
 
 build_scale_graph()
 
+def build_port_flow(ip_num):
+	source_port_dic = {}
+	source_port_dic_2 = {}
+	aim_port_dic = {}
+	aim_port_dic_2 = {}
+	with open(save_filename,'r') as f:
+		csv_file = csv.reader(f)
+		print("build port flow begin!")
+	for row in csv_file:
+		if row[2] in source_port_dic:
+			if row[4] in source_port_dic[row[2]]:
+				source_port_dic[row[2]][row[4]] += float(row[11])
+			else:
+				source_port_dic[row[2]][row[4]] = float(row[11])
+		else:
+			dic = {}
+			dic[row[4]] = float(row[11])
+			source_port_dic[row[2]] = dic
+		
+		if row[2] in source_port_dic_2:
+			if row[5] in source_port_dic_2[row[5]]:
+				source_port_dic_2[row[2]][row[5]] += float(row[11])
+			else:
+				source_port_dic_2[row[2]][row[5]] = float(row[11])
+		else:
+			dic = {}
+			dic[row[5]] = float(row[11])
+			source_port_dic_2[row[2]] = dic
+		
+		if row[3] in aim_port_dic:
+			if row[5] in aim_port_dic[row[3]]:
+				aim_port_dic[row[3]][row[5]] += float(row[11])
+			else:
+				aim_port_dic[row[3]][row[5]] = float(row[11])
+		else:
+			dic = {}
+			dic[row[5]] = float(row[11])
+			aim_port_dic[row[3]] = dic
+
+		if row[3] in aim_port_dic_2:
+			if row[4] in aim_port_dic_@[row[3]]:
+				aim_port_dic_2[row[3]][row[4]] += float(row[11])
+			else:
+				aim_port_dic_2[row[3]][row[4]] = float(row[11])
+		else:
+			dic = {}
+			dic[row[4]] = float(row[11])
+			aim_port_dic_2[row[3]] = dic
+	'''
+	with open(source_port_dic_save_filename,"w+") as f:
+		pkl.dump(source_port_dic,f)
+	with open(aim_port_dic_save_filename,"w+") as f:
+		pkl.dump(aim_port_dic,f)
+	'''
+	ip_dic = {}
+	with open(ipdic_save_filename,'r') as f:
+		ip_dic = pkl.load(f)
+		print("ip_dic done load...(build_port_flow)")
+	sort_source_list = np.zeros(ip_num,5)
+	sort_aim_list = np.zeros(ip_num,5)
+	sort_source_list_2 = np,zeros(ip_num,5)
+	sort_aim_list_2 =np.zeros(ip_num,5)
+	for key in source_port_dic:
+		one_list= sorted(list(source_port_dic[key].values()),reverse=True)
+		for i in range(len(one_list)):
+			sort_source_list[ip_dic[key]][i] = one_list[i]
+	
+	for key in aim_port_dic:
+		one_list = sorted(list(aim_port_dic[key].values()),reverse=True)
+		for i in range(len(one_list)):
+			sort_aim_list[ip_dic[key]][i] = one_list[i]
+	
+	for key in source_port_dic_2:
+		one_list = sorted(list(source_port_dic_2[key].values()),reverse=True)
+		for i in range(len(one_list)):
+			sort_source_list_2[ip_dic[key]][i] = one_list[i]
+
+	for key in aim_port_dic_2:
+		one_list = sorted(list(aim_port_dic_2[key].values()),reverse=True)
+		for i in range(len(one_list)):
+			sort_aim_list_2[ip_dic[key]][i] = one_list[i]
+
+	with open(source_port_list_save_filename,'w+') as f:
+		pkl.dump(sort_source_list,f)
+		print("sort source list save!")
+	with open(aim_port_list_save_filename,'w+') as f:
+		pkl.dump(sort_aim_list,f)
+		print("sort aim list save")
+	with open(source_port_list_2_save_filename,'w+') as f:
+		pkl.dumo(sort_source_list_2,f)
+		print("sort source list 2 save!")
+	with open(aim_port_list_2_save_filename,'w+') as f:
+		pkl.dump(sort_aim_list_2,f)
+		print("sort aim list 2 save!")
+with open("ip_num",'r') as f:
+	ip_num = pkl.load(f)
+
+build_port_flow(ip_num)
+
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
 	ip_dic = {}
-	port_dic = {}
 	features_dic = {'IPv6':10, 'RSVP':11, 'GRE':12, 'ICMP':13, 'TCP':14, 'UDP':15, 'IPIP':16, 'ESP':17}
 	
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
-		print("ip_dic done load")
+		print("ip_dic done load...(build_features)")
+	with open(source_port_list_save_filename,'r') as f:
+		source_port_list = pkl.load(f)
+		print("source port list done load...")
+	with open(aim_port_list_save_filename,'r') as f:
+		aim_port_list = pkl.load(f)
+		print("aim port list done load...")
 	
 	row_cout = 0
 	with open(save_filename,'r') as f:
@@ -179,21 +291,23 @@ def build_features(ip_num, features_num):
 				source_index = ip_dic[row[2]]
 				aim_index = ip_dic[row[3]]
 
-				#端口流量占比先不考虑
 				features_martix[source_index][0] += float(row[11])
 				features_martix[source_index][1] += float(row[10])
-				features_martix[source_index][4] += 1  #端口总数
+				features_martix[source_index][4] += 1  
 				features_martix[source_index][5] += 1
 				features_martix[source_index][6] += 1
 				if row[6] in features_dic:
-					features_martix[source_index][features_dic[row[6]]] += float(row[11])   #各协议占比 
-				#features_martix[source_index][18]
-				#features_martix[source_index][24]
+					features_martix[source_index][features_dic[row[6]]] += float(row[11])
+				for i in range(5):   
+					features_martix[source_index][18+i] = source_port_list[source_index][i]
+					features_martix[source_index][24+i] = aim_port_list[source_index][i]
 				if float(row[1]) < features_martix[source_index][46] or features_martix[source_index][46] == 0:
 					features_martix[source_index][46] = float(row[1])
 				if float(row[1]) > features_martix[source_index][47]:
 					features_martix[source_index][47] = float(row[1])
 
+
+				
 				features_martix[aim_index][2] += float(row[11])
 				features_martix[aim_index][3] += float(row[10])
 				features_martix[aim_index][7] += 1
@@ -221,9 +335,7 @@ def build_features(ip_num, features_num):
 		pkl.dump(features_martix,f)
 		print("done")
 
-with open("ip_num",'r') as f:
-	ip_num = pkl.load(f)
-build_features(ip_num,50)
+#build_features(ip_num,50)
 
 def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist, anomaly-spam(稀少)（干脆去掉做二分类）
@@ -264,7 +376,7 @@ def build_one_hot_labels(ip_num):
 		pkl.dump(one_hot_labels,f)
 		print("done")
 
-build_one_hot_labels(ip_num)
+#build_one_hot_labels(ip_num)
 
 def build_one_hot_labels_for_test(ip_num):
 	one_hot_labels_for_test = np.zeros((ip_num,3))
@@ -301,7 +413,7 @@ def build_one_hot_labels_for_test(ip_num):
  		pkl.dump(one_hot_labels_for_test,f)
  		print("done")
 
-build_one_hot_labels_for_test(ip_num)
+#build_one_hot_labels_for_test(ip_num)
 
 def normalize_data(ip_num, features_num):
 	n_features_martix = features_martix = np.zeros((ip_num,features_num))
@@ -318,7 +430,8 @@ def normalize_data(ip_num, features_num):
 		pkl.dump(n_features_martix,f)
 		print("done")
 
-normalize_data(ip_num,50)
+#normalize_data(ip_num,50)
+
 
 
 
