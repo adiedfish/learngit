@@ -371,7 +371,6 @@ def build_features(ip_num, features_num):
 				features_martix[source_index][6] += 1
 				if row[6] in features_dic:
 					features_martix[source_index][features_dic[row[6]]] += float(row[11])
-					print(features_martix[source_index][features_dic[row[6]]]) 
 				if float(row[1]) < features_martix[source_index][46] or features_martix[source_index][46] == 0:
 					features_martix[source_index][46] = float(row[1])
 				if float(row[1]) > features_martix[source_index][47]:
@@ -405,11 +404,11 @@ def build_features(ip_num, features_num):
 
 	summ = np.sum(features_martix[:,10:18],axis=1)
 	for i in xrange(len(features_martix)):
-		features_martix[i,10:18] = features_martix[i,10:18]/summ[i]+1.0
+		features_martix[i,10:18] = features_martix[i,10:18]/(summ[i]+1.0)
 
 	summ = np.sum(features_martix[:,28:36],axis=1)
 	for i in xrange(len(features_martix)):
-		features_martix[i,28:36] = features_martix[i,28:36]/summ[i]+1.0
+		features_martix[i,28:36] = features_martix[i,28:36]/(summ[i]+1.0)
 		#有可能该ip（第i个）没有当过目的ip，使得除数为0
 	with open(features_save_filename,'w+') as f:
 		pkl.dump(features_martix,f)
