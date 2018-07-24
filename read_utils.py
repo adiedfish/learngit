@@ -208,7 +208,7 @@ def build_port_flow(ip_num):
 			aim_port_dic[row[3]] = dic
 
 		if row[3] in aim_port_dic_2:
-			if row[4] in aim_port_dic_@[row[3]]:
+			if row[4] in aim_port_dic_2[row[3]]:
 				aim_port_dic_2[row[3]][row[4]] += float(row[11])
 			else:
 				aim_port_dic_2[row[3]][row[4]] = float(row[11])
