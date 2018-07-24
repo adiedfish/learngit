@@ -254,8 +254,8 @@ def build_port_flow(ip_num):
 		for i in range(5):
 			if source_port_dic[key]:
 				maxindex = max(source_port_dic[key],key = source_port_dic[key].get)
-				sort_source_list[ip_dic[key]][i] = source_port_dic[maxindex]
-				source_port_dic.pop(maxindex)
+				sort_source_list[ip_dic[key]][i] = source_port_dic[key][maxindex]
+				source_port_dic[key].pop(maxindex)
 			else:
 				break
 		cout += 1
@@ -269,8 +269,8 @@ def build_port_flow(ip_num):
 		for i in range(5):
 			if aim_port_dic[key]:
 				maxindex = max(aim_port_dic[key],key = aim_port_dic[key].get)
-				sort_aim_list[ip_dic[key]][i] = aim_port_dic[maxindex]
-				aim_port_dic.pop(maxindex)
+				sort_aim_list[ip_dic[key]][i] = aim_port_dic[key][maxindex]
+				aim_port_dic[key].pop(maxindex)
 			else:
 				break
 		cout += 1
@@ -284,8 +284,8 @@ def build_port_flow(ip_num):
 		for i in range(5):
 			if source_port_dic_2[key]:
 				maxindex = max(source_port_dic_2[key],key = source_port_dic_2[key].get)
-				sort_source_list_2[ip_dic[key]][i] = source_port_dic_2[maxindex]
-				source_port_dic_2.pop(maxindex)
+				sort_source_list_2[ip_dic[key]][i] = source_port_dic_2[key][maxindex]
+				source_port_dic_2[key].pop(maxindex)
 			else:
 				break
 		cout += 1
@@ -299,8 +299,8 @@ def build_port_flow(ip_num):
 		for i in range(5):
 			if aim_port_dic_2[key]:
 				maxindex = max(aim_port_dic_2[key],key = aim_port_dic_2[key].get)
-				sort_aim_list_2[ip_dic[key]][i] = aim_port_dic_2[maxindex]
-				aim_port_dic_2.pop(maxindex)
+				sort_aim_list_2[ip_dic[key]][i] = aim_port_dic_2[key][maxindex]
+				aim_port_dic_2[key].pop(maxindex)
 			else:
 				break
 		cout += 1
