@@ -384,7 +384,7 @@ def build_features(ip_num, features_num):
 				features_martix[aim_index][8] += 1
 				features_martix[aim_index][9] += 1
 				if row[6] in features_dic:
-					features_martix[aim_index][features_dic[row[6]]] += float(row[11])
+					features_martix[aim_index][features_dic[row[6]]+18] += float(row[11])
 				#features_martix[aim_index][36]
 				#features_martix[aim_index][41]
 				if float(row[1]) < features_martix[aim_index][48] or features_martix[aim_index][48] == 0:
@@ -401,6 +401,15 @@ def build_features(ip_num, features_num):
 		except:
 			sys.stdout.write("%d rows done"%row_cout)
 			sys.stdout.flush()
+
+	summ = np.sum(features_martix[:,10:18],axis=1)
+	for i in xrange(len(features_martix)):
+		features_martix[i,10:18] = features_martix[i,10:18]/summ[i]
+
+	summ = np.sum(features_martix[:,28:36],axis=1)
+	for i in xrange(len(features_martix)):
+		features_martix[i,28:36] = features_martix[i,28:36]/summ[i] 
+
 	with open(features_save_filename,'w+') as f:
 		pkl.dump(features_martix,f)
 		print("\nfeatures martix bulid done")
@@ -490,12 +499,13 @@ def normalize_data(ip_num, features_num):
 	with open(features_save_filename,'r') as f:
 		n_features_martix = pkl.load(f)
 	mean_v = np.mean(n_features_martix, 0)
-	std_v = np.std(n_features_martix, 1)
+	std_v = np.std(n_features_martix, 0)
 	for i in range(n_features_martix.shape[1]):
-		n_features_martix[:,i] = (n_features_martix[:,i]-mean_v[i])/std_v[i]
-		sys.stdout.write("%d comp"%i)
-		sys.stdout.write("\r")
-		sys.stdout.flush()
+		if i < 10 or (i > 17 and i < 28) or i > 35: 
+			n_features_martix[:,i] = (n_features_martix[:,i]-mean_v[i])/std_v[i]
+			sys.stdout.write("%d comp"%i)
+			sys.stdout.write("\r")
+			sys.stdout.flush()
 	with open(n_features_save_filename, "w+") as f:
 		pkl.dump(n_features_martix,f)
 		print("\ndone(normalize data)")
