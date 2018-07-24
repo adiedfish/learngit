@@ -29,6 +29,8 @@ labels_for_test_save_filename = "labels_for_test"
 
 source_port_dic_save_filename = "source_port_dic"
 aim_port_dic_save_filename = "aim_port_dic"
+source_port_dic_2_save_filename = "source_port_dic_2"
+aim_port_dic_2_save_filename = "aim_port_dic_2"
 
 source_port_list_save_filename = "source_port_list"
 source_port_list_2_save_filename = "source_port_list_2"
@@ -224,12 +226,20 @@ def build_port_flow(ip_num):
 				sys.stdout.flush()
 		sys.stdout.write("%d rows write"%cout)
 		sys.stdout.flush()
-	'''
-	with open(source_port_dic_save_filename,"w+") as f:
+
+	with open(source_port_dic_save_filename,'w+') as f:
 		pkl.dump(source_port_dic,f)
-	with open(aim_port_dic_save_filename,"w+") as f:
+	print("save source_port_dic...")
+	with open(aim_port_dic_save_filename,'w+') as f:
 		pkl.dump(aim_port_dic,f)
-	'''
+	print("save aim_port_dic...")
+	with open(source_port_dic_2_save_filename,'w+') as f:
+		pkl.dump(source_port_dic_2,f)
+	print("save source_port_dic_2...")
+	with open(aim_port_dic_2_save_filename,'w+') as f:
+		pkl.dump(aim_port_dic_2,f)
+	print("save aim_port_dic_2...")
+
 	ip_dic = {}
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
@@ -289,7 +299,7 @@ def build_port_flow(ip_num):
 		for i in range(5):
 			if aim_port_dic_2[key]:
 				maxindex = max(aim_port_dic_2[key],key = aim_port_dic_2[key].get)
-				sort_aim_list_@[ip_dic[key]][i] = aim_port_dic_2[maxindex]
+				sort_aim_list_2[ip_dic[key]][i] = aim_port_dic_2[maxindex]
 				aim_port_dic_2.pop(maxindex)
 			else:
 				break
