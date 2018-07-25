@@ -47,6 +47,9 @@ def pre_process(filname):
 	ip_set = set([])
 
 	cout = 0
+
+	source_ip_num = set([])
+	aim_ip_num = set([])
 	
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
@@ -79,6 +82,8 @@ def pre_process(filname):
 					if row[3] in ip_set:
 						writer.writerow(row)
 						cout += 1
+						source_ip_num.add(row[2])
+						aim_ip_num.add(row[3])
 				except:
 					print("warning:nothing write once")
 				finally:
@@ -92,6 +97,9 @@ def pre_process(filname):
 		finally:
 			save_csv_file.close()
 	print("?--------------------have:%f%%------------------------------"%pre)
+	print("source ip num:%d"%len(source_ip_num))
+	print("aim ip num:"%len(aim_ip_num))
+	print("-----------------------------------")
 
 pre_process(loadpath+load_filename)
 
@@ -538,7 +546,7 @@ def normalize_data(ip_num, features_num):
 	for i in range(n_features_martix.shape[1]):
 		if i < 10 or (i > 17 and i < 28) or i > 35: 
 			n_features_martix[:,i] = (n_features_martix[:,i]-mean_v[i])/std_v[i]
-			sys.stdout.write("%d comp"%i)
+			sys.stdout.write("%d completed"%i)
 			sys.stdout.write("\r")
 			sys.stdout.flush()
 	with open(n_features_save_filename, "w+") as f:
