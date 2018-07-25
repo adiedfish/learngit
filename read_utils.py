@@ -523,10 +523,10 @@ def build_one_hot_labels_for_test(ip_num):
 	background_test_num = 500
 	background_test_cout = 0
 
-	blacklist_test_num = 500
+	blacklist_test_num = 0
 	blacklist_test_cout = 0
 
-	spam_test_num = 5
+	spam_test_num = 500
 	spam_test_cout = 0
 
 	row_cout = 0
@@ -555,8 +555,11 @@ def build_one_hot_labels_for_test(ip_num):
  	with open("blacklist_cout",'w+') as f:
  		pkl.dump(blacklist_test_cout,f)
  		print("blacklist_cout save...(%d)"%blacklist_test_cout)
+ 	with open("spam_cout",'w+') as f:
+ 		pkl.dump(spam_test_cout,f)
+ 		print("blacklist_cout save...(%d)"%spam_test_cout)
 
-#build_one_hot_labels_for_test(ip_num)
+build_one_hot_labels_for_test(ip_num)
 
 def normalize_data(ip_num, features_num):
 
@@ -578,7 +581,7 @@ def normalize_data(ip_num, features_num):
 		pkl.dump(n_features_martix,f)
 	print("\ndone(normalize data)")
 
-normalize_data(ip_num,50)
+#normalize_data(ip_num,50)
 
 
 
