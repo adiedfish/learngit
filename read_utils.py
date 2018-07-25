@@ -298,7 +298,7 @@ def build_port_flow(ip_num):
 	
 	cout = 0
 	for key in source_port_dic:
-		largest_5 = heapq.nlargest(5,source_port_dic[key].values())
+		largest_5 = heapq.nlargest(5,np.pad(source_port_dic[key].values(),(0,5),'constant',constant_values=0))
 		sort_source_list[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done/%d"%(cout,len(source_port_dic)))
@@ -308,7 +308,7 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in aim_port_dic:
-		largest_5 = heapq.nlargest(5,aim_port_dic[key].values())
+		largest_5 = heapq.nlargest(5,np.pad(aim_port_dic[key].values(),(0,5),'constant',constant_values=0))
 		sort_aim_list[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done/%d"%(cout,len(aim_port_dic)))
@@ -318,7 +318,7 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in source_port_dic_2:
-		largest_5 = heapq.nlargest(5,source_port_dic_2[key].values())
+		largest_5 = heapq.nlargest(5,np.pad(source_port_dic_2[key].values(),(0,5),'constant',constant_values=0))
 		sort_source_list_2[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done/%d"%(cout,len(source_port_dic_2)))
@@ -328,7 +328,7 @@ def build_port_flow(ip_num):
 
 	cout = 0
 	for key in aim_port_dic_2:
-		largest_5 = heapq.nlargest(5,aim_port_dic_2[key].values())
+		largest_5 = heapq.nlargest(5,np.pad(aim_port_dic_2[key].values(),(0,5),'constant',constant_values=0))
 		sort_aim_list_2[ip_dic[key]] = largest_5
 		cout += 1
 		sys.stdout.write("%d key write done/%d"%(cout,len(aim_port_dic_2)))
