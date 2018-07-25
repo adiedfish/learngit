@@ -54,7 +54,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 60000000:
+			if cout > 70000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -76,7 +76,7 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if cout_sumn > 60000000:
+				if cout_sumn > 70000000:
 					break
 				try:
 					if row[3] in ip_set:
@@ -98,7 +98,7 @@ def pre_process(filname):
 			save_csv_file.close()
 	print("?--------------------have:%f%%------------------------------"%pre)
 	print("source ip num:%d"%len(source_ip_num))
-	print("aim ip num:"%len(aim_ip_num))
+	print("aim ip num:%d"%len(aim_ip_num))
 	print("-----------------------------------")
 
 pre_process(loadpath+load_filename)
@@ -477,7 +477,7 @@ def build_one_hot_labels(ip_num):
 					one_hot_labels[source_index][0] = 0
 					one_hot_labels[source_index][1] = 0
 					one_hot_labels[source_index][2] = 0
-					abnormal_cout += 1
+					abnormal_cout += 1.  #异常记录的条数，大于异常ip的数量
 				if one_hot_labels[source_index][2] == 0 and one_hot_labels[source_index][1] == 0:
 					one_hot_labels[source_index][class_dir[row[12]]] = 1
 			else:
@@ -514,6 +514,7 @@ def build_one_hot_labels_for_test(ip_num):
 	row_cout = 0
  	with open(labels_save_filename,'r') as f:
  		labels = pkl.load(f)
+ 		blacklist_cout = 0
  		for i in xrange(len(labels)):
  			if labels[i][0] == 1 and background_test_cout < background_test_num:
  				one_hot_labels_for_test[i][0] = 1
@@ -521,6 +522,7 @@ def build_one_hot_labels_for_test(ip_num):
  			if labels[i][1] == 1 and blacklist_test_cout < blacklist_test_num:
  				one_hot_labels_for_test[i][1] = 1
  				blacklist_test_cout += 1
+ 				blacklist += 1
  			if labels[i][2] == 1 and spam_test_cout < spam_test_num:
  				one_hot_labels_for_test[i][2] = 1
  				spam_test_cout += 1
@@ -534,6 +536,9 @@ def build_one_hot_labels_for_test(ip_num):
  	with open(labels_for_test_save_filename,'w+') as f:
  		pkl.dump(one_hot_labels_for_test,f)
  		print("\ndone(labels for test)")
+ 	with open("blacklist_cout",'w+') as f:
+ 		pkl.dump(blacklist_cout,f)
+ 		print("blacklist_cout save...")
 
 build_one_hot_labels_for_test(ip_num)
 
