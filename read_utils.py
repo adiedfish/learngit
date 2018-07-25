@@ -469,7 +469,7 @@ def build_features(ip_num, features_num):
 		pkl.dump(features_martix,f)
 	print("\nfeatures martix bulid done")
 
-build_features(ip_num,50)
+#build_features(ip_num,50)
 
 def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist, anomaly-spam(稀少)（干脆去掉做二分类）
@@ -523,10 +523,10 @@ def build_one_hot_labels_for_test(ip_num):
 	background_test_num = 500
 	background_test_cout = 0
 
-	blacklist_test_num = 0
+	blacklist_test_num = 500
 	blacklist_test_cout = 0
 
-	spam_test_num = 500
+	spam_test_num = 0
 	spam_test_cout = 0
 
 	row_cout = 0
