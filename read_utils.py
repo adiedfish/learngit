@@ -119,7 +119,7 @@ def pre_process(filname):
 	print("aim ip num:%d"%len(aim_ip_num))
 	print("-----------------------------------")
 
-pre_process(loadpath+load_filename)
+#pre_process(loadpath+load_filename)
 
 def build_graph(filname):
 	ip_list = []
@@ -185,12 +185,12 @@ def build_graph(filname):
 	
 	return i
 
-ip_num = build_graph(save_filename)
-
+#ip_num = build_graph(save_filename)
+'''
 with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
 print("ip_num save")
-
+'''
 def build_scale_graph():
 	with open(sparse_save_filename,'r') as f:
 		sparse_m = pkl.load(f)
@@ -200,7 +200,7 @@ def build_scale_graph():
 		pkl.dump(sparse_m,f)
 	print("scale done")
 
-build_scale_graph()
+#build_scale_graph()
 
 def build_port_flow(ip_num):
 	source_port_dic = {}
@@ -378,8 +378,8 @@ def build_port_flow(ip_num):
 with open("ip_num",'r') as f:
 	ip_num = pkl.load(f)
 
-build_port_flow(ip_num)
-
+#build_port_flow(ip_num)
+#----------------------------------
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
 	ip_dic = {}
@@ -388,7 +388,7 @@ def build_features(ip_num, features_num):
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
 		print("ip_dic done load...(build_features)")
-	'''
+	
 	with open(source_port_list_save_filename,'r') as f:
 		source_port_list = pkl.load(f)
 		print("source port list done load...")
@@ -409,7 +409,7 @@ def build_features(ip_num, features_num):
 			features_martix[i][36+j] = aim_port_list_2[i][j]
 			features_martix[i][41+j] = aim_port_list[i][j]
 	print("port flow set done!")
-	'''
+	
 	row_cout = 0
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
@@ -447,7 +447,7 @@ def build_features(ip_num, features_num):
 				if float(row[1]) > features_martix[aim_index][49]:
 					features_martix[aim_index][49] = float(row[1])
 				row_cout += 1
-				if row_cout%100 == 0:
+				if row_cout%10000 == 0:
 					sys.stdout.write("%d rows done"%row_cout)
 					sys.stdout.write("\r")
 					sys.stdout.flush()
@@ -516,7 +516,7 @@ def build_one_hot_labels(ip_num):
 		pkl.dump(abnormal_cout,f)
 		print("abnormal_cout save...")
 
-build_one_hot_labels(ip_num)
+#build_one_hot_labels(ip_num)
 
 def build_one_hot_labels_for_test(ip_num):
 	one_hot_labels_for_test = np.zeros((ip_num,3))
@@ -556,7 +556,7 @@ def build_one_hot_labels_for_test(ip_num):
  		pkl.dump(blacklist_test_cout,f)
  		print("blacklist_cout save...(%d)"%blacklist_test_cout)
 
-build_one_hot_labels_for_test(ip_num)
+#build_one_hot_labels_for_test(ip_num)
 
 def normalize_data(ip_num, features_num):
 
