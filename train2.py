@@ -162,7 +162,7 @@ for i in range(epochs):
 			#ind = sess.run(tf.argmax(v[i]))
 			if ind_all[i] == 1:
 				cout += 1
-	print("how much we predict right: %d"%cout)
+	print("how much we predict right: %d/  %d"%(cout,allb))
 	rec = float(cout)/float(allb)
 	print("rec:%.4f"%(rec))
 
@@ -174,7 +174,7 @@ for i in range(epochs):
 			allb += 1
 			if labels_all[i][1] == 1:
 				cout += 1
-	print("how much we predict: %d"%allb)
+	print("how much we predict: %d/  %d"%(allb,cout))
 	acc = float(cout)/(float(allb)+1)
 	print("acc:%.4f"%(acc))
 
