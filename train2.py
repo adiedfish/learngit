@@ -119,11 +119,12 @@ predict = tf.nn.softmax(z2+b2)
 
 
 learning_rate = 0.001
+learning_rate_back = 0.00001
 lmbda = 5.0
 
 loss_in_background = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels_background))/background_cout#+lmbda*(tf.reduce_sum(tf.abs(w1)))/background_cout
 loss_in_blacklist = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels_blacklist))/blacklist_cout#+lmbda*(tf.reduce_sum(tf.abs(w2)))/blacklist_cout
-train_step_background = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_in_background)
+train_step_background = tf.train.AdamOptimizer(learning_rate = learning_rate_back).minimize(loss_in_background)
 train_step_blacklist = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_in_blacklist)
 
 init = tf.initialize_all_variables()
