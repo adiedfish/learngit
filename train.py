@@ -160,8 +160,10 @@ for i in range(epochs):
 	print("how much we predict: %d"%allb)
 	acc = float(cout)/float(allb)
 	print("blacklist predict pro:%.4f"%(acc))
-
-	f1_soc = 2*(rec*acc)/(rec+acc)
+	if rec+acc != 0:
+		f1_soc = 2*(rec*acc)/(rec+acc)
+	else:
+		f1_soc = 0
 	print(f1_soc)
 	print("-------------------------------------")
 
