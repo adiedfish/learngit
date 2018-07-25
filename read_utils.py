@@ -304,7 +304,7 @@ def build_port_flow(ip_num):
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
-	print("1 is done...")
+	print("1 is done...\n")
 
 	cout = 0
 	for key in aim_port_dic:
@@ -314,7 +314,7 @@ def build_port_flow(ip_num):
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
-	print("2 is done...")
+	print("2 is done...\n")
 
 	cout = 0
 	for key in source_port_dic_2:
@@ -324,7 +324,7 @@ def build_port_flow(ip_num):
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
-	print("3 is done...")
+	print("3 is done...\n")
 
 	cout = 0
 	for key in aim_port_dic_2:
@@ -334,7 +334,7 @@ def build_port_flow(ip_num):
 		sys.stdout.write("%d key write done"%cout)
 		sys.stdout.write("\r")
 		sys.stdout.flush()
-	print("4 is done...")
+	print("4 is done...\n")
 
 	with open(source_port_list_save_filename,'w+') as f:
 		pkl.dump(sort_source_list,f)
