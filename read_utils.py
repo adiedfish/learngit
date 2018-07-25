@@ -51,7 +51,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 40000000:
+			if cout > 60000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -73,7 +73,7 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if cout_sumn > 40000000:
+				if cout_sumn > 60000000:
 					break
 				try:
 					if row[3] in ip_set:
@@ -458,6 +458,7 @@ def build_one_hot_labels(ip_num):
 
 	row_cout = 0
 	no_key_cout = 0
+	abnormal_cout = 0
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
 		for row in csv_file:
@@ -468,6 +469,7 @@ def build_one_hot_labels(ip_num):
 					one_hot_labels[source_index][0] = 0
 					one_hot_labels[source_index][1] = 0
 					one_hot_labels[source_index][2] = 0
+					abnormal_cout += 1
 				if one_hot_labels[source_index][2] == 0 and one_hot_labels[source_index][1] == 0:
 					one_hot_labels[source_index][class_dir[row[12]]] = 1
 			else:
@@ -483,6 +485,10 @@ def build_one_hot_labels(ip_num):
 	with open(labels_save_filename,'w+') as f:
 		pkl.dump(one_hot_labels,f)
 		print("\ndone(one hot labels)")
+	print("abnormal cout: %d"%abnormal_cout)
+	with open("abnormal_cout",'w+') as f:
+		pkl.dump(abnormal_cout,f)
+		print("abnormal_cout save...")
 
 build_one_hot_labels(ip_num)
 
