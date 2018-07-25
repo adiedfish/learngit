@@ -54,6 +54,10 @@ def pre_process(filname):
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
 			cout += 1
+			sys.stdout.write("%d"%cout)
+			sys.stdout.write("\r")
+			sys.stdout.flush()
+
 			if cout < base_num:
 				continue
 			if cout > base_num+60000000:
@@ -64,7 +68,7 @@ def pre_process(filname):
 			except:
 				print("warning: nothing add once")
 			finally:
-				if cout%100000 == 0:
+				if (cout-base_num)%100000 == 0:
 					sys.stdout.write("already add:%d"%(cout-base_num))
 					sys.stdout.write("\r")
 					sys.stdout.flush()
@@ -79,6 +83,11 @@ def pre_process(filname):
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
 				cout_sumn += 1
+				cout_sumn += 1
+				sys.stdout.write("%d"%cout_summ)
+				sys.stdout.write("\r")
+				sys.stdout.flush()
+
 				if cout_sumn < base_num:
 					continue
 				if cout_sumn > base_num+60000000:
@@ -93,7 +102,7 @@ def pre_process(filname):
 					print("warning:nothing write once")
 				finally:
 					cout_sumn += 1
-					if cout_sumn%100000 == 0:
+					if (cout_sumn-base_num)%100000 == 0:
 						pre = float(cout)*100/float(sumn)
 						pre_sumn = float(cout_sumn-base_num)*100/float(sumn)
 						sys.stdout.write("%.4f%%______________%.4f%%"%(pre, pre_sumn))
