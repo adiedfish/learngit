@@ -53,12 +53,12 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			cout += 1
-			sys.stdout.write("%d"%cout)
-			sys.stdout.write("\r")
-			sys.stdout.flush()
 
 			if cout < base_num:
+				cout += 1
+				sys.stdout.write("%d"%cout)
+				sys.stdout.write("\r")
+				sys.stdout.flush()
 				continue
 			if cout > base_num+60000000:
 				break
@@ -82,13 +82,12 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				cout_sumn += 1
-				cout_sumn += 1
-				sys.stdout.write("%d"%cout_summ)
-				sys.stdout.write("\r")
-				sys.stdout.flush()
-
+				
 				if cout_sumn < base_num:
+					cout_sumn += 1
+					sys.stdout.write("%d"%cout_summ)
+					sys.stdout.write("\r")
+					sys.stdout.flush()
 					continue
 				if cout_sumn > base_num+60000000:
 					break
