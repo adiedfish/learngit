@@ -210,10 +210,10 @@ f1_soc = 2*(rec*acc)/(rec+acc)
 print(f1_soc)
 '''
 print("w1 :  ---\n")
-print(sees.run(w1))
+print(sess.run(w1))
 print("------------------------------------")
 print("w2 :  ---\n")
-peinr(sess.run(w2))
+print(sess.run(w2))
 print("Optimization Finished")
 
 
