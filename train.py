@@ -106,8 +106,7 @@ predict = tf.nn.softmax(z2+b2)
 
 learning_rate = 0.001
 lmbda = 5.0
-loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)
-		+lmbda*(tf.reduce_sum(tf.abs(w1))+tf.reduce_sum(tf.abs(w2)))/len(features)
+loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)+lmbda*(tf.reduce_sum(tf.abs(w1))+tf.reduce_sum(tf.abs(w2)))/len(features)
 
 train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
