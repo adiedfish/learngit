@@ -41,7 +41,7 @@ source_port_list_2_save_filename = "source_port_list_2"
 aim_port_list_save_filename = "aim_port_list"
 aim_port_list_2_save_filename = "aim_port_list_2"
 
-
+base_num = 65000000
 def pre_process(filname):
 	ip_set = set([])
 
@@ -53,7 +53,10 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 65000000:
+			cout += 1
+			if cout < base_num:
+				continue
+			if cout > base_num+60000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -62,7 +65,7 @@ def pre_process(filname):
 				print("warning: nothing add once")
 			finally:
 				if cout%100000 == 0:
-					sys.stdout.write("already add:%d"%cout)
+					sys.stdout.write("already add:%d"%(cout-base_num))
 					sys.stdout.write("\r")
 					sys.stdout.flush()
 	print("!---------------have:%d------------------------------"%cout)
@@ -75,7 +78,10 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if cout_sumn > 65000000:
+				cout_sumn += 1
+				if cout_sumn < base_num:
+					continue
+				if cout_sumn > base_num+60000000:
 					break
 				try:
 					if row[3] in ip_set:
@@ -89,7 +95,7 @@ def pre_process(filname):
 					cout_sumn += 1
 					if cout_sumn%100000 == 0:
 						pre = float(cout)*100/float(sumn)
-						pre_sumn = float(cout_sumn)*100/float(sumn)
+						pre_sumn = float(cout_sumn-base_num)*100/float(sumn)
 						sys.stdout.write("%.4f%%______________%.4f%%"%(pre, pre_sumn))
 						sys.stdout.write("\r")
 						sys.stdout.flush()
