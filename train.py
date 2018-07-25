@@ -140,11 +140,11 @@ for i in range(epochs):
 	v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
 	ind_all = sess.run(tf.argmax(v,1))
 	for i in xrange(len(labels_all)):
-		if labels_all[i][2] == 1:
+		if labels_all[i][1] == 1:
 			allb += 1
 			#v = sees.run(predict,feed_dict={support:sparse_martix,x:features})[i]
 			#ind = sess.run(tf.argmax(v[i]))
-			if ind_all[2] == 1:
+			if ind_all[1] == 1:
 				cout += 1
 	print("how much we predict right: %d/  %d"%(cout,allb))
 	rec = float(cout)/float(allb)
@@ -154,9 +154,9 @@ for i in range(epochs):
 	cout = 0
 	for i in xrange(len(labels_all)):
 		#ind = sess.run(tf.argmax(v[i]))
-		if ind_all[2] == 1:
+		if ind_all[1] == 1:
 			allb += 1
-			if labels_all[i][2] == 1:
+			if labels_all[i][1] == 1:
 				cout += 1
 	print("how much we predict: %d/  %d"%(allb,cout))
 	acc = float(cout)/(float(allb)+1)
