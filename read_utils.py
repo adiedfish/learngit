@@ -448,7 +448,7 @@ def build_features(ip_num, features_num):
 		features_martix[i,28:36] = features_martix[i,28:36]/(summ[i]+1.0)
 		#有可能该ip（第i个）没有当过目的ip，使得除数为0
 	with open(features_save_filename,'w+') as f:
-		pkl.dump(features_martix,f)
+		cPickle.dump(features_martix,f)
 		print("\nfeatures martix bulid done")
 
 build_features(ip_num,50)

@@ -9,8 +9,7 @@ import pickle as pkl
 import scipy.sparse as sp
 import networkx as nx
 import sys
-
-
+import cPickle
 
 def sparse_to_tuple(sparse_mx):
     def to_tuple(mx):
@@ -55,7 +54,7 @@ labels_save_filename = "labers"
 labels_for_test_save_filename = "labels_for_test"
 
 with open(features_save_filename,'r') as f:
-	features = pkl.load(f)
+	features = cPickle.load(f)
 	print("features load done")
 
 with open(labels_save_filename,'r') as f:

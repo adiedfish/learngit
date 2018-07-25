@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 from __future__ import division
 from __future__ import print_function
 
@@ -8,8 +9,7 @@ import pickle as pkl
 import scipy.sparse as sp
 import networkx as nx
 import sys
-
-
+import cPickle
 
 def sparse_to_tuple(sparse_mx):
     def to_tuple(mx):
@@ -54,7 +54,7 @@ labels_save_filename = "labers"
 labels_for_test_save_filename = "labels_for_test"
 
 with open(features_save_filename,'r') as f:
-	features = pkl.load(f)
+	features = cPickle.load(f)
 	print("features load done")
 
 with open(labels_save_filename,'r') as f:
@@ -120,6 +120,7 @@ predict = tf.nn.softmax(z2+b2)
 
 learning_rate = 0.001
 lmbda = 5.0
+
 loss_in_background = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels_background))/background_cout#+lmbda*(tf.reduce_sum(tf.abs(w1)))/background_cout
 loss_in_blacklist = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels_blacklist))/blacklist_cout#+lmbda*(tf.reduce_sum(tf.abs(w2)))/blacklist_cout
 train_step_background = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_in_background)
