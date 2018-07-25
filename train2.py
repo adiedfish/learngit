@@ -119,8 +119,9 @@ predict = tf.nn.softmax(z2+b2)
 
 
 learning_rate = 0.001
-loss_in_background = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels_background))/background_cout+lmbda*(tf.reduce_sum(tf.abs(w1)))/background_cout
-loss_in_blacklist = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels_blacklist))/blacklist_cout+lmbda*(tf.reduce_sum(tf.abs(w2)))/blacklist_cout
+lmbda = 5.0
+loss_in_background = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels_background))/background_cout#+lmbda*(tf.reduce_sum(tf.abs(w1)))/background_cout
+loss_in_blacklist = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels_blacklist))/blacklist_cout#+lmbda*(tf.reduce_sum(tf.abs(w2)))/blacklist_cout
 train_step_background = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_in_background)
 train_step_blacklist = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_in_blacklist)
 
@@ -221,10 +222,10 @@ f1_soc = 2*(rec*acc)/(rec+acc)
 print(f1_soc)
 '''
 print("w1 :  ---\n")
-print(sees.run(w1))
+print(sess.run(w1))
 print("------------------------------------")
 print("w2 :  ---\n")
-peinr(sess.run(w2))
+print(sess.run(w2))
 print("Optimization Finished")
 
 
