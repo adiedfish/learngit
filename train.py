@@ -5,7 +5,7 @@ from __future__ import print_function
 import time
 import tensorflow as tf 
 import numpy as np
-import pickle as pkl
+import cPickle as pkl
 import scipy.sparse as sp
 import networkx as nx
 import sys
@@ -54,7 +54,7 @@ labels_save_filename = "labers"
 labels_for_test_save_filename = "labels_for_test"
 
 with open(features_save_filename,'r') as f:
-	features = cPickle.load(f)
+	features = pkl.load(f)
 	print("features load done")
 
 with open(labels_save_filename,'r') as f:

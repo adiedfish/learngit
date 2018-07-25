@@ -4,8 +4,7 @@ from __future__ import division
 from __future__ import print_function
 
 import numpy as np 
-import pickle as pkl
-import cPickle
+import cPickle as pkl
 import csv
 import scipy.sparse as sp
 import sys
@@ -448,7 +447,7 @@ def build_features(ip_num, features_num):
 		features_martix[i,28:36] = features_martix[i,28:36]/(summ[i]+1.0)
 		#有可能该ip（第i个）没有当过目的ip，使得除数为0
 	with open(features_save_filename,'w+') as f:
-		cPickle.dump(features_martix,f)
+		pkl.dump(features_martix,f)
 		print("\nfeatures martix bulid done")
 
 build_features(ip_num,50)
@@ -545,7 +544,7 @@ build_one_hot_labels_for_test(ip_num)
 def normalize_data(ip_num, features_num):
 	n_features_martix = features_martix = np.zeros((ip_num,features_num))
 	with open(features_save_filename,'r') as f:
-		n_features_martix = pkl.load(f)
+		n_features_martix = cPickle.load(f)
 	mean_v = np.mean(n_features_martix, 0)
 	std_v = np.std(n_features_martix, 0)
 	for i in range(n_features_martix.shape[1]):
