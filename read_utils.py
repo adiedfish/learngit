@@ -448,7 +448,7 @@ def build_features(ip_num, features_num):
 		#有可能该ip（第i个）没有当过目的ip，使得除数为0
 	with open(features_save_filename,'w+') as f:
 		pkl.dump(features_martix,f)
-		print("\nfeatures martix bulid done")
+	print("\nfeatures martix bulid done")
 
 build_features(ip_num,50)
 
@@ -458,7 +458,7 @@ def build_one_hot_labels(ip_num):
 	one_hot_labels = np.zeros((ip_num,3))
 	ip_dic = {}
 	class_dir = {'background':0, 'blacklist':1, 'anomaly-spam':2}
-
+	print("one hot label build begin")
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
 		print("ip_dic done load")
