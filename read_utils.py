@@ -181,6 +181,12 @@ def build_port_flow(ip_num):
 	source_port_dic_2 = {}
 	aim_port_dic = {}
 	aim_port_dic_2 = {}
+
+	ip_dic = {}
+	with open(ipdic_save_filename,'r') as f:
+		ip_dic = pkl.load(f)
+		print("\nip_dic done load...(build_port_flow)")
+
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
 		print("build port flow begin!")
@@ -261,10 +267,6 @@ def build_port_flow(ip_num):
 		cPickle.dump(aim_port_dic_2,f)
 	print("save aim_port_dic_2...")
 	'''
-	ip_dic = {}
-	with open(ipdic_save_filename,'r') as f:
-		ip_dic = pkl.load(f)
-		print("\nip_dic done load...(build_port_flow)")
 	sort_source_list = np.zeros((ip_num,5))
 	sort_aim_list = np.zeros((ip_num,5))
 	sort_source_list_2 = np.zeros((ip_num,5))
