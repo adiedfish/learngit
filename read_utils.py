@@ -11,6 +11,9 @@ import scipy.sparse as sp
 import sys
 import heapq
 
+
+#控制所有数不小于0的正规化！试一试
+
 loadpath = "../"
 load_filename = "march.week3.csv.uniqblacklistremoved"
 
@@ -48,7 +51,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 60000000:
+			if cout > 100000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -70,7 +73,7 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if cout_sumn > 60000000:
+				if cout_sumn > 100000000:
 					break
 				try:
 					if row[3] in ip_set:
@@ -90,7 +93,7 @@ def pre_process(filname):
 			save_csv_file.close()
 	print("?--------------------have:%f%%------------------------------"%pre)
 
-#pre_process(loadpath+load_filename)
+pre_process(loadpath+load_filename)
 
 def build_graph(filname):
 	ip_list = []
@@ -156,12 +159,12 @@ def build_graph(filname):
 	
 	return i
 
-#ip_num = build_graph(save_filename)
-'''
+ip_num = build_graph(save_filename)
+
 with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
 print("ip_num save")
-'''
+
 def build_scale_graph():
 	with open(sparse_save_filename,'r') as f:
 		sparse_m = pkl.load(f)
@@ -171,7 +174,7 @@ def build_scale_graph():
 		pkl.dump(sparse_m,f)
 	print("scale done")
 
-#build_scale_graph()
+build_scale_graph()
 
 def build_port_flow(ip_num):
 	source_port_dic = {}
@@ -323,7 +326,7 @@ def build_port_flow(ip_num):
 with open("ip_num",'r') as f:
 	ip_num = pkl.load(f)
 
-#build_port_flow(ip_num)
+build_port_flow(ip_num)
 
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
