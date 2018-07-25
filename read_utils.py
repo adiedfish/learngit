@@ -42,6 +42,9 @@ aim_port_list_save_filename = "aim_port_list"
 aim_port_list_2_save_filename = "aim_port_list_2"
 
 base_num = 65000000
+
+
+
 def pre_process(filname):
 	ip_set = set([])
 
@@ -73,8 +76,8 @@ def pre_process(filname):
 					sys.stdout.write("already add:%d"%(cout-base_num))
 					sys.stdout.write("\r")
 					sys.stdout.flush()
-	print("!---------------have:%d------------------------------"%cout)
-	sumn = cout
+	print("!---------------have:%d------------------------------"%(cout-base_num))
+	sumn = cout-base_num
 	cout = 0
 	cout_sumn = 0
 	with open(filname,'r') as f:
@@ -87,7 +90,7 @@ def pre_process(filname):
 				if cout_sumn < base_num:
 					cout_sumn += 1
 					if cout_sumn%100000 == 0:
-						sys.stdout.write("%d"%cout_summ)
+						sys.stdout.write("%d"%cout_sumn)
 						sys.stdout.write("\r")
 						sys.stdout.flush()
 					continue
@@ -529,7 +532,6 @@ def build_one_hot_labels_for_test(ip_num):
 	row_cout = 0
  	with open(labels_save_filename,'r') as f:
  		labels = pkl.load(f)
- 		blacklist_cout = 0
  		for i in xrange(len(labels)):
  			if labels[i][0] == 1 and background_test_cout < background_test_num:
  				one_hot_labels_for_test[i][0] = 1
@@ -537,12 +539,11 @@ def build_one_hot_labels_for_test(ip_num):
  			if labels[i][1] == 1 and blacklist_test_cout < blacklist_test_num:
  				one_hot_labels_for_test[i][1] = 1
  				blacklist_test_cout += 1
- 				blacklist += 1
  			if labels[i][2] == 1 and spam_test_cout < spam_test_num:
  				one_hot_labels_for_test[i][2] = 1
  				spam_test_cout += 1
  			row_cout += 1
- 			if row_cout%100 == 0:
+ 			if row_cout%10000 == 0:
  				sys.stdout.write("%d rows done"%row_cout)
  				sys.stdout.write("\r")
  				sys.stdout.flush()
@@ -552,8 +553,8 @@ def build_one_hot_labels_for_test(ip_num):
  		pkl.dump(one_hot_labels_for_test,f)
  		print("\ndone(labels for test)")
  	with open("blacklist_cout",'w+') as f:
- 		pkl.dump(blacklist_cout,f)
- 		print("blacklist_cout save...")
+ 		pkl.dump(blacklist_test_cout,f)
+ 		print("blacklist_cout save...(%d)"%blacklist_test_cout)
 
 build_one_hot_labels_for_test(ip_num)
 
