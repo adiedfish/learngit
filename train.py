@@ -104,7 +104,7 @@ z2 = tf.sparse_tensor_dense_matmul(support,tf.matmul(z1, w2))
 predict = tf.nn.softmax(z2+b2)
 
 
-learning_rate = 0.001
+learning_rate = 0.01
 lmbda = 5.0
 loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)#+lmbda*(tf.reduce_sum(tf.abs(w1))+tf.reduce_sum(tf.abs(w2)))/len(features)
 #权值已经够小了不用正则项约束
@@ -145,7 +145,7 @@ for i in range(epochs):
 			#ind = sess.run(tf.argmax(v[i]))
 			if ind_all[i] == 1:
 				cout += 1
-	print("how much we predict right: %d"%cout)
+	print("how much we predict right: %d/  %d"%(cout,allb))
 	rec = float(cout)/float(allb)
 	print("blacklist predict pro:%.4f"%(rec))
 
@@ -157,7 +157,7 @@ for i in range(epochs):
 			allb += 1
 			if labels_all[i][1] == 1:
 				cout += 1
-	print("how much we predict: %d"%allb)
+	print("how much we predict: %d/  %d"%(allb,cout))
 	acc = float(cout)/(float(allb)+1)
 	print("blacklist predict pro:%.4f"%(acc))
 	if rec+acc != 0:
