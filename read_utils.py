@@ -360,7 +360,7 @@ def build_port_flow(ip_num):
 with open("ip_num",'r') as f:
 	ip_num = pkl.load(f)
 
-build_port_flow(ip_num)
+#build_port_flow(ip_num)
 
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
@@ -370,7 +370,7 @@ def build_features(ip_num, features_num):
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
 		print("ip_dic done load...(build_features)")
-	
+	'''
 	with open(source_port_list_save_filename,'r') as f:
 		source_port_list = pkl.load(f)
 		print("source port list done load...")
@@ -391,7 +391,7 @@ def build_features(ip_num, features_num):
 			features_martix[i][36+j] = aim_port_list_2[i][j]
 			features_martix[i][41+j] = aim_port_list[i][j]
 	print("port flow set done!")
-	
+	'''
 	row_cout = 0
 	with open(save_filename,'r') as f:
 		csv_file = csv.reader(f)
