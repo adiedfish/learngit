@@ -238,7 +238,7 @@ def build_port_flow(ip_num):
 				sys.stdout.flush()
 		sys.stdout.write("%d rows write\n"%cout)
 		sys.stdout.flush()
-	
+	'''
 	cout = 0
 	add_dic = {-1:0,-2:0,-3:0,-4:0,-5:0}
 	for key in source_port_dic:
@@ -276,7 +276,7 @@ def build_port_flow(ip_num):
 			sys.stdout.write("\r")
 			sys.stdout.flush()
 	print("add 4 is done...")
-
+	'''
 	'''
 	with open(source_port_dic_save_filename,'w+') as f:
 		cPickle.dump(source_port_dic,f)
