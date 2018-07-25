@@ -56,9 +56,10 @@ def pre_process(filname):
 
 			if cout < base_num:
 				cout += 1
-				sys.stdout.write("%d"%cout)
-				sys.stdout.write("\r")
-				sys.stdout.flush()
+				if cout % 100000 == 0:
+					sys.stdout.write("%d"%cout)
+					sys.stdout.write("\r")
+					sys.stdout.flush()
 				continue
 			if cout > base_num+60000000:
 				break
@@ -85,9 +86,10 @@ def pre_process(filname):
 				
 				if cout_sumn < base_num:
 					cout_sumn += 1
-					sys.stdout.write("%d"%cout_summ)
-					sys.stdout.write("\r")
-					sys.stdout.flush()
+					if cout_sumn%100000 == 0:
+						sys.stdout.write("%d"%cout_summ)
+						sys.stdout.write("\r")
+						sys.stdout.flush()
 					continue
 				if cout_sumn > base_num+60000000:
 					break
