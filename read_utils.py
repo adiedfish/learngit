@@ -236,7 +236,7 @@ def build_port_flow(ip_num):
 				sys.stdout.write("%d rows write"%cout)
 				sys.stdout.write("\r")
 				sys.stdout.flush()
-		sys.stdout.write("%d rows write"%cout)
+		sys.stdout.write("%d rows write\n"%cout)
 		sys.stdout.flush()
 	
 	cout = 0
@@ -245,7 +245,7 @@ def build_port_flow(ip_num):
 		for k in add_dic:
 			source_port_dic[key][k] = add_dic[k]
 		cout += 1
-		sys.stdout.write("%d rows write"%cout)
+		sys.stdout.write("%d/%d rows write"%(cout,len(source_port_dic)))
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 	print("add 1 is done...")
@@ -254,7 +254,7 @@ def build_port_flow(ip_num):
 		for k in add_dic:
 			source_port_dic_2[key][k] = add_dic[k]
 		cout += 1
-		sys.stdout.write("%d rows write"%cout)
+		sys.stdout.write("%d/%d rows write"%(cout,len(source_port_dic_2)))
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 	print("add 2 is done...")
@@ -263,7 +263,7 @@ def build_port_flow(ip_num):
 		for k in add_dic:
 			aim_port_dic[key][k] = add_dic[k]
 		cout += 1
-		sys.stdout.write("%d rows write"%cout)
+		sys.stdout.write("%d/%d rows write"%(cout,len(aim_port_dic)))
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 	print("add 3 is done...")
@@ -272,7 +272,7 @@ def build_port_flow(ip_num):
 		for k in add_dic:
 			aim_port_dic_2[key][k] = add_dic[k]
 		cout += 1
-		sys.stdout.write("%d rows write"%cout)
+		sys.stdout.write("%d/%d rows write"%(cout,len(aim_port_dic_2)))
 		sys.stdout.write("\r")
 		sys.stdout.flush()
 	print("add 4 is done...")
