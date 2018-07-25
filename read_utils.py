@@ -51,7 +51,7 @@ def pre_process(filname):
 	with open(filname,'r') as f:
 		load_csv_file = csv.reader(f)
 		for row in load_csv_file:
-			if cout > 100000000:
+			if cout > 80000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -73,7 +73,7 @@ def pre_process(filname):
 		try:
 			writer = csv.writer(save_csv_file)
 			for row in load_csv_file:
-				if cout_sumn > 100000000:
+				if cout_sumn > 80000000:
 					break
 				try:
 					if row[3] in ip_set:
