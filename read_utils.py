@@ -559,6 +559,9 @@ def build_one_hot_labels_for_test(ip_num):
 #build_one_hot_labels_for_test(ip_num)
 
 def normalize_data(ip_num, features_num):
+
+	non_zero_add = 0.0001
+
 	n_features_martix = features_martix = np.zeros((ip_num,features_num))
 	with open(features_save_filename,'r') as f:
 		n_features_martix = pkl.load(f)
@@ -566,7 +569,8 @@ def normalize_data(ip_num, features_num):
 	std_v = np.std(n_features_martix, 0)
 	for i in range(n_features_martix.shape[1]):
 		if i < 10 or (i > 17 and i < 28) or i > 35: 
-			n_features_martix[:,i] = (n_features_martix[:,i]-mean_v[i])/std_v[i]
+			#有无效值或零值在分母？
+			n_features_martix[:,i] = (n_features_martix[:,i]-mean_v[i])/(std_v[i]+non_zero_add)
 			sys.stdout.write("%d completed"%i)
 			sys.stdout.write("\r")
 			sys.stdout.flush()

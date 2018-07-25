@@ -158,7 +158,7 @@ for i in range(epochs):
 			if labels_all[i][1] == 1:
 				cout += 1
 	print("how much we predict: %d"%allb)
-	acc = float(cout)/float(allb)
+	acc = float(cout)/(float(allb)+1)
 	print("blacklist predict pro:%.4f"%(acc))
 	if rec+acc != 0:
 		f1_soc = 2*(rec*acc)/(rec+acc)
