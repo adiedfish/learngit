@@ -64,7 +64,7 @@ def pre_process(filname):
 					sys.stdout.write("\r")
 					sys.stdout.flush()
 				continue
-			if cout > base_num+60000000:
+			if cout > base_num+10000000:
 				break
 			try:
 				ip_set.add(row[2])
@@ -94,7 +94,7 @@ def pre_process(filname):
 						sys.stdout.write("\r")
 						sys.stdout.flush()
 					continue
-				if cout_sumn > base_num+60000000:
+				if cout_sumn > base_num+10000000:
 					break
 				try:
 					if row[3] in ip_set:
@@ -576,7 +576,7 @@ def normalize_data(ip_num, features_num):
 			sys.stdout.flush()
 	with open(n_features_save_filename, "w+") as f:
 		pkl.dump(n_features_martix,f)
-		print("\ndone(normalize data)")
+	print("\ndone(normalize data)")
 
 normalize_data(ip_num,50)
 
