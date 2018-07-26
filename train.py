@@ -108,7 +108,7 @@ learning_rate = 0.01
 lmbda = 5.0
 loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)#+lmbda*(tf.reduce_sum(tf.abs(w1))+tf.reduce_sum(tf.abs(w2)))/len(features)
 #权值已经够小了不用正则项约束
-factor = 0.001
+factor = 0.002
 loss += tf.reduce_sum(predict[:,1])/len(features)*factor
 train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
@@ -116,6 +116,7 @@ init = tf.initialize_all_variables()
 sess = tf.Session()
 sess.run(init)
 epochs = 100
+max_f1 = 0.0
 for i in range(epochs):
 	t = time.time()
 	sess.run(train_step,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
@@ -165,6 +166,8 @@ for i in range(epochs):
 		f1_soc = 2*(rec*acc)/(rec+acc)
 	else:
 		f1_soc = 0
+	if f1_soc > max_f1:
+		max_f1 = f1_soc
 	print(f1_soc)
 	print("-------------------------------------")
 
@@ -215,6 +218,7 @@ print("------------------------------------")
 print("w2 :  ---\n")
 print(sess.run(w2))
 print("Optimization Finished")
+print("max f1:%.4f"%max_f1)
 
 
 

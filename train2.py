@@ -131,6 +131,7 @@ init = tf.initialize_all_variables()
 sess = tf.Session()
 sess.run(init)
 epochs = 100
+max_f1 = 0.0
 for i in range(epochs):
 	t = time.time()
 	sess.run(train_step_background,feed_dict={support:sparse_martix,x:features,labels_background:labels_only_background})
@@ -177,8 +178,9 @@ for i in range(epochs):
 	print("how much we predict: %d/  %d"%(allb,cout))
 	acc = float(cout)/(float(allb)+1)
 	print("acc:%.4f"%(acc))
-
 	f1_soc = 2*(rec*acc)/(rec+acc)
+	if f1_soc>max_f1:
+		max_f1 = f1_soc
 	print(f1_soc)
 	print("-------------------------------------")
 
@@ -229,7 +231,7 @@ print("------------------------------------")
 print("w2 :  ---\n")
 print(sess.run(w2))
 print("Optimization Finished")
-
+print("max f1:%.4f"%max_f1)
 
 
 
