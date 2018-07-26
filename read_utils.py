@@ -387,11 +387,11 @@ def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
 	ip_dic = {}
 	features_dic = {'IPv6':10, 'RSVP':11, 'GRE':12, 'ICMP':13, 'TCP':14, 'UDP':15, 'IPIP':16, 'ESP':17}
-	'''
+	
 	with open(ipdic_save_filename,'r') as f:
 		ip_dic = pkl.load(f)
 		print("ip_dic done load...(build_features)")
-	
+	'''
 	with open(source_port_list_save_filename,'r') as f:
 		source_port_list = pkl.load(f)
 		print("source port list done load...")
