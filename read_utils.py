@@ -15,6 +15,7 @@ import heapq
 
 loadpath = "../"
 load_filename = "march.week3.csv.uniqblacklistremoved"
+load_filename_2 = "july.week5.csv.uniqblacklistremoved"
 
 savepath = ""
 save_filename = "clear_data.csv"
@@ -119,7 +120,7 @@ def pre_process(filname):
 	print("aim ip num:%d"%len(aim_ip_num))
 	print("-----------------------------------")
 
-#pre_process(loadpath+load_filename)
+pre_process(loadpath+load_filename)
 
 def build_graph(filname):
 	ip_list = []
@@ -185,12 +186,12 @@ def build_graph(filname):
 	
 	return i
 
-#ip_num = build_graph(save_filename)
-'''
+ip_num = build_graph(save_filename)
+
 with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
 print("ip_num save")
-'''
+
 def build_scale_graph():
 	with open(sparse_save_filename,'r') as f:
 		sparse_m = pkl.load(f)
@@ -200,7 +201,7 @@ def build_scale_graph():
 		pkl.dump(sparse_m,f)
 	print("scale done")
 
-#build_scale_graph()
+build_scale_graph()
 
 def build_port_flow(ip_num):
 	source_port_dic = {}
@@ -378,7 +379,7 @@ def build_port_flow(ip_num):
 with open("ip_num",'r') as f:
 	ip_num = pkl.load(f)
 
-#build_port_flow(ip_num)
+build_port_flow(ip_num)
 #----------------------------------
 def build_features(ip_num, features_num):
 	features_martix = np.zeros((ip_num,features_num))
@@ -469,7 +470,7 @@ def build_features(ip_num, features_num):
 		pkl.dump(features_martix,f)
 	print("\nfeatures martix bulid done")
 
-#build_features(ip_num,50)
+build_features(ip_num,50)
 
 def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist, anomaly-spam(稀少)（干脆去掉做二分类）
@@ -499,6 +500,10 @@ def build_one_hot_labels(ip_num):
 				if one_hot_labels[source_index][2] == 0 and one_hot_labels[source_index][1] == 0:
 					one_hot_labels[source_index][class_dir[row[12]]] = 1
 			else:
+				#所有非blacklist放到2
+				one_hot_labels[source_index][0] = 0
+				one_hot_labels[source_index][1] = 0
+				one_hot_labels[source_index][2] = 1
 				no_key_cout += 1
 			row_cout += 1
 			if row_cout%10000 == 0: 
@@ -507,16 +512,16 @@ def build_one_hot_labels(ip_num):
 				sys.stdout.flush()
 		sys.stdout.write("%d rows done"%row_cout)
 		sys.stdout.flush()
-	print("no key num :%d"%no_key_cout)
+	print("\nno key num :%d"%no_key_cout)
 	with open(labels_save_filename,'w+') as f:
 		pkl.dump(one_hot_labels,f)
-		print("\ndone(one hot labels)")
+		print("done(one hot labels)")
 	print("abnormal cout: %d"%abnormal_cout)
 	with open("abnormal_cout",'w+') as f:
 		pkl.dump(abnormal_cout,f)
 		print("abnormal_cout save...")
 
-#build_one_hot_labels(ip_num)
+build_one_hot_labels(ip_num)
 
 def build_one_hot_labels_for_test(ip_num):
 	one_hot_labels_for_test = np.zeros((ip_num,3))
@@ -526,7 +531,8 @@ def build_one_hot_labels_for_test(ip_num):
 	blacklist_test_num = 500
 	blacklist_test_cout = 0
 
-	spam_test_num = 0
+	#实际是所有非blacklist的异常流量ip
+	spam_test_num = 5
 	spam_test_cout = 0
 
 	row_cout = 0
@@ -581,7 +587,7 @@ def normalize_data(ip_num, features_num):
 		pkl.dump(n_features_martix,f)
 	print("\ndone(normalize data)")
 
-#normalize_data(ip_num,50)
+normalize_data(ip_num,50)
 
 
 
