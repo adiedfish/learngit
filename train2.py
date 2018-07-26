@@ -138,8 +138,38 @@ sess.run(init)
 epochs = 100
 max_f1 = 0.0
 for i in range(epochs):
-	t = time.time()
+	#t = time.time()
 	sess.run(train_step_background,feed_dict={support:sparse_martix,x:features,labels_background:labels_only_background})
+	allb = 0
+	cout = 0
+	v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
+	ind_all = sess.run(tf.argmax(v,1))
+	for i in xrange(len(labels_all)):
+		if labels_all[i][1] == 1:
+			allb += 1
+			if ind_all[i] == 1:
+				cout += 1
+	print("how much we predict right: %d/  %d"%(cout,allb))
+	rec = float(cout)/float(allb)
+	print("rec:%.4f"%(rec))
+
+	allb = 0
+	cout = 0
+	for i in xrange(len(labels_all)):
+		#ind = sess.run(tf.argmax(v[i]))
+		if ind_all[i] == 1:
+			allb += 1
+			if labels_all[i][1] == 1:
+				cout += 1
+	print("how much we predict: %d/  %d"%(allb,cout))
+	acc = float(cout)/(float(allb)+1)
+	print("acc:%.4f"%(acc))
+	f1_soc = 2*(rec*acc)/(rec+acc)
+	if f1_soc>max_f1:
+		max_f1 = f1_soc
+	print(f1_soc)
+	print("-------------------------------------")
+for i in range(epochs):
 	sess.run(train_step_blacklist,feed_dict={support:sparse_martix,x:features,labels_blacklist:labels_only_blacklist})
 	'''
 	train_loss = sess.run(loss, feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
