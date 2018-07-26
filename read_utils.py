@@ -531,7 +531,7 @@ def build_one_hot_labels(ip_num):
 
 def build_one_hot_labels_for_test(ip_num):
 	one_hot_labels_for_test = np.zeros((ip_num,3))
-	background_test_num = 500
+	background_test_num = 100
 	background_test_cout = 0
 
 	blacklist_test_num = 100
@@ -570,6 +570,9 @@ def build_one_hot_labels_for_test(ip_num):
  	with open("spam_cout",'w+') as f:
  		pkl.dump(spam_test_cout,f)
  		print("blacklist_cout save...(%d)"%spam_test_cout)
+ 	with open("test_num",'w+') as f:
+ 		pkl.dump((background_test_num,blacklist_test_num),f)
+ 		print("test num save....(%d, %d)"%(background_test_num,blacklist_test_num))
 
 build_one_hot_labels_for_test(ip_num)
 

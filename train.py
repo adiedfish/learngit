@@ -118,6 +118,10 @@ sess = tf.Session()
 sess.run(init)
 epochs = 100
 max_f1 = 0.0
+
+with open("test_num",'r') as f:
+	test_num = pkl.load(f)
+
 for i in range(epochs):
 	t = time.time()
 	sess.run(train_step,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
@@ -148,8 +152,11 @@ for i in range(epochs):
 			#ind = sess.run(tf.argmax(v[i]))
 			if ind_all[i] == 1:
 				cout += 1
-	print("how much we predict right: %d/  %d"%(cout,allb))
-	rec = float(cout)/float(allb)
+	print("how much we predict right: %d/  %d"%(cout-test_num[1], allb))
+	if cout - test_num >0:
+		rec = (float(cout)-float(test_num[1]))/float(allb)
+	else:
+		rec = 0
 	print("blacklist predict pro:%.4f"%(rec))
 
 	allb = 0
@@ -160,8 +167,11 @@ for i in range(epochs):
 			allb += 1
 			if labels_all[i][1] == 1:
 				cout += 1
-	print("how much we predict: %d/  %d"%(allb,cout))
-	acc = float(cout)/(float(allb)+1)
+	print("how much we predict: %d/  %d"%(allb-test_num[1], cout))
+	if cout - test_num >0:
+		acc = (float(cout)-float(test_num[1]))/(float(allb)+1)
+	else:
+		acc = 0
 	print("blacklist predict pro:%.4f"%(acc))
 	if rec+acc != 0:
 		f1_soc = 2*(rec*acc)/(rec+acc)
