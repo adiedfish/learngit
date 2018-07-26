@@ -476,7 +476,7 @@ def build_features(ip_num, features_num):
 		pkl.dump(features_martix,f)
 	print("\nfeatures martix bulid done")
 
-build_features(ip_num,50)
+#build_features(ip_num,50)
 
 def build_one_hot_labels(ip_num):
 	#前600万条只有3类，background, blacklist, anomaly-spam(稀少)（干脆去掉做二分类）
@@ -534,7 +534,7 @@ def build_one_hot_labels_for_test(ip_num):
 	background_test_num = 500
 	background_test_cout = 0
 
-	blacklist_test_num = 500
+	blacklist_test_num = 100
 	blacklist_test_cout = 0
 
 	#实际是所有非blacklist的异常流量ip
@@ -571,7 +571,7 @@ def build_one_hot_labels_for_test(ip_num):
  		pkl.dump(spam_test_cout,f)
  		print("blacklist_cout save...(%d)"%spam_test_cout)
 
-#build_one_hot_labels_for_test(ip_num)
+build_one_hot_labels_for_test(ip_num)
 
 def normalize_data(ip_num, features_num):
 
@@ -597,7 +597,7 @@ def normalize_data(ip_num, features_num):
 		pkl.dump(n_features_martix,f)
 	print("\ndone(normalize data)")
 
-normalize_data(ip_num,50)
+#normalize_data(ip_num,50)
 
 
 
