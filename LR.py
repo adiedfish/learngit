@@ -60,7 +60,7 @@ for i in range(epochs):
 		y = train_val[j]
 		p = p_pos(x,w)
 		derivate_1 -= x*(y-p)
-		derivate_2 += np.dot(x)*p*(1-p)
+		derivate_2 += np.dot(x,x)*p*(1-p)
 		if j%10 == 0:
 			sys.stdout.write("%d add done______(in %d)"%(j,train_data.shape[0]))
 			sys.stdout.write("\r")
@@ -73,6 +73,7 @@ for i in range(epochs):
 
 p_for_test = 1
 cout = 0
+cout_2 = 0
 right_cout = 0
 for i in xrange(test_data.shape[0]):
 	x = test_data[i]
@@ -80,11 +81,13 @@ for i in xrange(test_data.shape[0]):
 	pre = predict(x,w,p)
 	if y == 1:
 		cout += 1
+	if pre == 1:
+		cout_2 += 1
 	if pre == y and y == 1:
 		right_cout += 1
-print("test data num: %d"%test_data.shape[0])
-print("we predict: %d"%cout)
-print("we predict right: %d"%right_cout)
+print("\ntest data num: %d"%test_data.shape[0])
+print("we predict: %d"%cout_2)
+print("we predict right: %d(of %d)"%(right_cout,cout))
 
 
 
