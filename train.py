@@ -89,6 +89,7 @@ w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_ran
 b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
 z1 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1)))
+z1 = tf.sparse_tensor_dense_matmul(support,z1)
 
 activate = tf.nn.relu(z1+b1)
 
@@ -101,18 +102,18 @@ w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_ran
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
 z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2)))
-#这里后面反倒用matmul(z1,w2)更好
+z2 = tf.sparse_tensor_dense_matmul(support,z2)
 
 predict = tf.nn.softmax(z2+b2)
 
 
-learning_rate = 0.001
+learning_rate = 0.005
 lmbda = 5.0
 loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)#+lmbda*(tf.reduce_sum(tf.abs(w1))+tf.reduce_sum(tf.abs(w2)))/len(features)
 #权值已经够小了不用正则项约束
-factor = 0.001
+factor = 0.005
 loss_1 = loss + tf.reduce_sum(predict[:,1])/len(features)*factor
-train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
+train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_1)
 
 init = tf.initialize_all_variables()
 sess = tf.Session()
