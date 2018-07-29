@@ -88,7 +88,9 @@ w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_ran
 
 b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
-z1 = tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1))
+support_2 = tf.sparse_tensor_dense_matmul(support,support)
+
+z1 = tf.sparse_tensor_dense_matmul(support_2,tf.matmul(x, w1))
 
 activate = tf.nn.relu(z1+b1)
 
@@ -100,7 +102,10 @@ w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_ran
 
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
-z2 = tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2))
+support_2 = tf.sparse_tensor_dense_matmul(support,support)
+
+z2 = tf.sparse_tensor_dense_matmul(support_2,tf.matmul(activate, w2))
+#这里后面反倒用matmul(z1,w2)更好
 
 predict = tf.nn.softmax(z2+b2)
 
@@ -116,7 +121,7 @@ train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss
 init = tf.initialize_all_variables()
 sess = tf.Session()
 sess.run(init)
-epochs = 100
+epochs = 500
 max_f1 = 0.0
 
 with open("test_num",'r') as f:
