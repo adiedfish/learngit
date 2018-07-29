@@ -106,20 +106,18 @@ z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support
 predict = tf.nn.softmax(z2+b2)
 
 
-learning_rate = 0.005
+learning_rate = 0.001
 lmbda = 5.0
 loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)#+lmbda*(tf.reduce_sum(tf.abs(w1))+tf.reduce_sum(tf.abs(w2)))/len(features)
 #权值已经够小了不用正则项约束
-factor = 0.005
+factor = 0.001
 loss_1 = loss + tf.reduce_sum(predict[:,1])/len(features)*factor
-loss_2 = loss
-train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_1)
-train_step_2 = tf.train.AdamOptimizer(learning_rate = learning_rate/5).minimize(loss_2)
+train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
 init = tf.initialize_all_variables()
 sess = tf.Session()
 sess.run(init)
-epochs = 1400
+epochs = 600
 max_f1 = 0.0
 
 with open("test_num",'r') as f:
@@ -127,10 +125,8 @@ with open("test_num",'r') as f:
 
 for i in range(epochs):
 	t = time.time()
-	if i < 700:
-		sess.run(train_step,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
-	else:
-		sess.run(train_step_2,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
+
+	sess.run(train_step,feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
 	'''
 	train_loss = sess.run(loss, feed_dict={support:sparse_martix,x:features,labels:labels_for_test})
 	train_acc_tf = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(predict,1),tf.argmax(labels_for_test,1)),"float"))
