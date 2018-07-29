@@ -76,7 +76,6 @@ sparse_martix = preprocess_adj(sparse)
 
 
 support = tf.sparse_placeholder(tf.float32)
-support_tensor = tf.sparse_tensor_to_dense(support)
 x = tf.placeholder(tf.float32)
 labels = tf.placeholder(tf.float32)
 
@@ -89,10 +88,7 @@ w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_ran
 
 b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
-support_2 = tf.sparse_matmul(support_tensor,support_tensor,a_is_sparse=True,b_is_sparse=True)
-
-z1 = tf.sparse_matmul(support_2,tf.matmul(x, w1),a_is_sparse=True)
-#z1 = tf.sparse_tensor_dense_matmul(support_2,tf.matmul(x, w1))
+z1 = tf.sparse_tensor_dense_matmul(tf.sparse_tensor_dense_matmul(support_2,tf.matmul(x, w1)))
 
 activate = tf.nn.relu(z1+b1)
 
@@ -104,10 +100,7 @@ w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_ran
 
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
-support_2 = tf.sparse_matmul(support_tensor,support_tensor,a_is_sparse=True,b_is_sparse=True)
-
-z1 = tf.sparse_matmul(support_2,tf.matmul(activate, w1),a_is_sparse=True)
-#z2 = tf.sparse_tensor_dense_matmul(support_2,tf.matmul(activate, w2))
+z2 = tf.sparse_tensor_dense_matmul(tf.sparse_tensor_dense_matmul(support_2,tf.matmul(activate, w2)))
 #这里后面反倒用matmul(z1,w2)更好
 
 predict = tf.nn.softmax(z2+b2)
