@@ -9,7 +9,7 @@ import cPickle as pkl
 import scipy.sparse as sp
 import networkx as nx
 import sys
-import cPickle
+
 
 def sparse_to_tuple(sparse_mx):
     def to_tuple(mx):
@@ -113,7 +113,7 @@ w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_ran
 
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
-z2 = tf.sparse_tensor_dense_matmul(support,tf.matmul(z1, w2))
+z2 = tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2))
 
 predict = tf.nn.softmax(z2+b2)
 
@@ -164,7 +164,11 @@ for i in range(epochs):
 	print("how much we predict: %d/  %d"%(allb,cout))
 	acc = float(cout)/(float(allb)+1)
 	print("acc:%.4f"%(acc))
-	f1_soc = 2*(rec*acc)/(rec+acc)
+
+	if rec+acc != 0:
+		f1_soc = 2*(rec*acc)/(rec+acc)
+	els :
+		f1_soc = 0
 	if f1_soc>max_f1:
 		max_f1 = f1_soc
 	print(f1_soc)
@@ -213,7 +217,11 @@ for i in range(epochs):
 	print("how much we predict: %d/  %d"%(allb,cout))
 	acc = float(cout)/(float(allb)+1)
 	print("acc:%.4f"%(acc))
-	f1_soc = 2*(rec*acc)/(rec+acc)
+
+	if rec+acc != 0:
+		f1_soc = 2*(rec*acc)/(rec+acc)
+	else:
+		f1_soc = 0
 	if f1_soc>max_f1:
 		max_f1 = f1_soc
 	print(f1_soc)

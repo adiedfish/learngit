@@ -9,7 +9,7 @@ import cPickle as pkl
 import scipy.sparse as sp
 import networkx as nx
 import sys
-import cPickle
+
 
 def sparse_to_tuple(sparse_mx):
     def to_tuple(mx):
@@ -100,7 +100,7 @@ w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_ran
 
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
-z2 = tf.sparse_tensor_dense_matmul(support,tf.matmul(z1, w2))
+z2 = tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2))
 
 predict = tf.nn.softmax(z2+b2)
 
