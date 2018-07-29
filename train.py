@@ -152,9 +152,9 @@ for i in range(epochs):
 			#ind = sess.run(tf.argmax(v[i]))
 			if ind_all[i] == 1:
 				cout += 1
-	print("how much we predict right: %d/  %d"%(cout-test_num[1], allb))
+	print("how much we predict right: %d/  %d"%(cout-test_num[1], allb-test_num[1]))
 	if cout - test_num[1] >0:
-		rec = (float(cout)-float(test_num[1]))/float(allb)
+		rec = (float(cout)-float(test_num[1]))/(float(allb)-float(test_num[1]))
 	else:
 		rec = 0
 	print("blacklist predict pro:%.4f"%(rec))
