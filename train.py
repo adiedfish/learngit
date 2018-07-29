@@ -88,8 +88,14 @@ w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_ran
 
 b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
+'''
 z1 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1)))
 z1 = tf.sparse_tensor_dense_matmul(support,z1)
+'''
+sup_sum = tf.sparse_reduce_sum(support,axis=1)
+sub = w1*tf.transpose(x)
+z1 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,x))-tf.transpose(sub)
+z1 = tf.matmul(z1,w1)
 
 activate = tf.nn.relu(z1+b1)
 
@@ -101,8 +107,14 @@ w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_ran
 
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
+'''
 z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2)))
 z2 = tf.sparse_tensor_dense_matmul(support,z2)
+'''
+sup_sum = tf.sparse_reduce_sum(support,axis=1)
+sub = w1*tf.transpose(x)
+z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,x))-tf.transpose(sub)
+z2 = tf.matmul(z2,w2)
 
 predict = tf.nn.softmax(z2+b2)
 
@@ -151,8 +163,6 @@ for i in range(epochs):
 	for i in xrange(len(labels_all)):
 		if labels_all[i][1] == 1:
 			allb += 1
-			#v = sees.run(predict,feed_dict={support:sparse_martix,x:features})[i]
-			#ind = sess.run(tf.argmax(v[i]))
 			if ind_all[i] == 1:
 				cout += 1
 	print("how much we predict right: %d/  %d"%(cout-test_num[1], allb-test_num[1]))
@@ -176,6 +186,7 @@ for i in range(epochs):
 	else:
 		acc = 0
 	print("blacklist predict pro:%.4f"%(acc))
+	
 	if rec+acc != 0:
 		f1_soc = 2*(rec*acc)/(rec+acc)
 	else:
@@ -233,6 +244,7 @@ print("w2 :  ---\n")
 print(sess.run(w2))
 print("Optimization Finished")
 print("max f1:%.4f"%max_f1)
+
 
 
 
