@@ -187,9 +187,9 @@ def build_graph(filname):
 	print("done")
 	
 	return i
-
-#ip_num = build_graph(save_filename)
 '''
+ip_num = build_graph(save_filename)
+
 with open("ip_num",'w+') as f:
 	pkl.dump(ip_num,f)
 print("ip_num save")
@@ -569,7 +569,7 @@ def build_one_hot_labels_for_test(ip_num):
  		print("blacklist_cout save...(%d)"%blacklist_test_cout)
  	with open("spam_cout",'w+') as f:
  		pkl.dump(spam_test_cout,f)
- 		print("blacklist_cout save...(%d)"%spam_test_cout)
+ 		print("spam_cout save...(%d)"%spam_test_cout)
  	with open("test_num",'w+') as f:
  		pkl.dump((background_test_num,blacklist_test_num),f)
  		print("test num save....(%d, %d)"%(background_test_num,blacklist_test_num))
