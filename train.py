@@ -105,11 +105,11 @@ z2 = tf.sparse_tensor_dense_matmul(support,tf.matmul(z1, w2))
 predict = tf.nn.softmax(z2+b2)
 
 
-learning_rate = 0.01
+learning_rate = 0.001
 lmbda = 5.0
 loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)#+lmbda*(tf.reduce_sum(tf.abs(w1))+tf.reduce_sum(tf.abs(w2)))/len(features)
 #权值已经够小了不用正则项约束
-factor = 0.002
+factor = 0.001
 loss += tf.reduce_sum(predict[:,1])/len(features)*factor
 train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
@@ -153,7 +153,7 @@ for i in range(epochs):
 			if ind_all[i] == 1:
 				cout += 1
 	print("how much we predict right: %d/  %d"%(cout-test_num[1], allb))
-	if cout - test_num >0:
+	if cout - test_num[1] >0:
 		rec = (float(cout)-float(test_num[1]))/float(allb)
 	else:
 		rec = 0
@@ -167,8 +167,8 @@ for i in range(epochs):
 			allb += 1
 			if labels_all[i][1] == 1:
 				cout += 1
-	print("how much we predict: %d/  %d"%(allb-test_num[1], cout))
-	if cout - test_num >0:
+	print("how much we predict: %d/  %d"%(allb, cout-test_num[1]))
+	if cout - test_num[1] >0:
 		acc = (float(cout)-float(test_num[1]))/(float(allb)+1)
 	else:
 		acc = 0
