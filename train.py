@@ -111,9 +111,10 @@ lmbda = 5.0
 loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=labels))/len(features)#+lmbda*(tf.reduce_sum(tf.abs(w1))+tf.reduce_sum(tf.abs(w2)))/len(features)
 #权值已经够小了不用正则项约束
 factor = 0.005
-loss += tf.reduce_sum(predict[:,1])/len(features)*factor
-train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
-train_step_2 = tf.train.AdamOptimizer(learning_rate = learning_rate/5).minimize(loss)
+loss_1 = loss + tf.reduce_sum(predict[:,1])/len(features)*factor
+loss_2 = loss
+train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_1)
+train_step_2 = tf.train.AdamOptimizer(learning_rate = learning_rate/5).minimize(loss_2)
 
 init = tf.initialize_all_variables()
 sess = tf.Session()
