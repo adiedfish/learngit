@@ -90,7 +90,7 @@ b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
 
 z1 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1)))
-z1 = tf.sparse_tensor_dense_matmul(support,z1)
+#z1 = tf.sparse_tensor_dense_matmul(support,z1)
 
 '''
 sup_sum = tf.sparse_reduce_sum(support,axis=1)
@@ -110,7 +110,7 @@ b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
 
 z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2)))
-z2 = tf.sparse_tensor_dense_matmul(support,z2)
+#z2 = tf.sparse_tensor_dense_matmul(support,z2)
 '''
 sup_sum = tf.sparse_reduce_sum(support,axis=1)
 sub = sup_sum*tf.transpose(activate)
@@ -197,47 +197,6 @@ for i in range(epochs):
 	print(f1_soc)
 	print("-------------------------------------")
 
-'''
-allb = 0
-cout = 0
-v = sess.run(predict,feed_dict={support:sparse_martix,x:features})
-ind_all = sess.run(tf.argmax(v,1))
-for i in xrange(len(labels_all)):
-	if labels_all[i][1] == 1:
-		allb += 1
-		#v = sees.run(predict,feed_dict={support:sparse_martix,x:features})[i]
-		#ind = sess.run(tf.argmax(v[i]))
-		if ind_all[i] == 1:
-			cout += 1
-	if allb%10 == 0:
-		sys.stdout.write("%d labels done"%allb)
-		sys.stdout.write('\r')
-		sys.stdout.flush()
-sys.stdout.write("%d labels done"%allb)
-sys.stdout.flush()
-rec = float(cout)/float(allb)
-print("blacklist predict pro:%.4f"%(rec))
-
-allb = 0
-cout = 0
-for i in xrange(len(labels_all)):
-	#ind = sess.run(tf.argmax(v[i]))
-	if ind_all[i] == 1:
-		allb += 1
-		if labels_all[i][1] == 1:
-			cout += 1
-	if allb%10 == 0:
-		sys.stdout.write("%d labels done"%allb)
-		sys.stdout.write('\r')
-		sys.stdout.flush()
-sys.stdout.write("%d labels done"%allb)
-sys.stdout.flush()
-acc = float(cout)/float(allb)
-print("blacklist predict pro:%.4f"%(acc))
-
-f1_soc = 2*(rec*acc)/(rec+acc)
-print(f1_soc)
-'''
 print("w1 :  ---\n")
 print(sess.run(w1))
 print("------------------------------------")
@@ -245,6 +204,16 @@ print("w2 :  ---\n")
 print(sess.run(w2))
 print("Optimization Finished")
 print("max f1:%.4f"%max_f1)
+
+fin_pre = sess.run(predict,feed_dict={support:sparse_martix,x:features})
+fin_pre = sess.run(tf.argmax(fin_pre,1))
+
+save_path = "fin_pre/"
+index = "1"
+with open(savepath+"fin_pre"+index,'w+') as f:
+	pkl.dump(fin_pre,f)
+	
+
 
 
 

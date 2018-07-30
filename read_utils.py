@@ -531,7 +531,7 @@ def build_one_hot_labels(ip_num):
 
 def build_one_hot_labels_for_test(ip_num):
 	one_hot_labels_for_test = np.zeros((ip_num,3))
-	background_test_num = 100
+	background_test_num = 0
 	background_test_cout = 0
 
 	blacklist_test_num = 100
@@ -542,18 +542,31 @@ def build_one_hot_labels_for_test(ip_num):
 	spam_test_cout = 0
 
 	row_cout = 0
+	save_path_of_labels = "fin_pre/" 
+	file_cout = 0
  	with open(labels_save_filename,'r') as f:
  		labels = pkl.load(f)
  		for i in xrange(len(labels)):
+ 			'''
  			if labels[i][0] == 1 and background_test_cout < background_test_num:
  				one_hot_labels_for_test[i][0] = 1
  				background_test_cout += 1
+ 			'''
  			if labels[i][1] == 1 and blacklist_test_cout < blacklist_test_num:
  				one_hot_labels_for_test[i][1] = 1
  				blacklist_test_cout += 1
+ 			elif blacklist_test_cout >= blacklist_test_num:
+ 				with open(save_path_of_labels+labels_for_test_save_filename+str(file_cout),'w+') as f:
+ 					pkl.dump(one_hot_labels_for_test,f)
+ 					print("\nlabels for testn num:%d save..."%file_cout)
+ 				file_cout += 1
+ 				one_hot_labels_for_test = np.zeros((ip_num,3))
+ 				blacklist_test_cout = 0
+ 			'''
  			if labels[i][2] == 1 and spam_test_cout < spam_test_num:
  				one_hot_labels_for_test[i][2] = 1
  				spam_test_cout += 1
+ 			'''
  			row_cout += 1
  			if row_cout%10000 == 0:
  				sys.stdout.write("%d rows done"%row_cout)
@@ -561,15 +574,19 @@ def build_one_hot_labels_for_test(ip_num):
  				sys.stdout.flush()
  		sys.stdout.write("%d rows done"%row_cout)
  		sys.stdout.flush()
+ 	'''
  	with open(labels_for_test_save_filename,'w+') as f:
  		pkl.dump(one_hot_labels_for_test,f)
  		print("\ndone(labels for test)")
+ 	
+
  	with open("blacklist_cout",'w+') as f:
  		pkl.dump(blacklist_test_cout,f)
  		print("blacklist_cout save...(%d)"%blacklist_test_cout)
  	with open("spam_cout",'w+') as f:
  		pkl.dump(spam_test_cout,f)
  		print("spam_cout save...(%d)"%spam_test_cout)
+ 	'''
  	with open("test_num",'w+') as f:
  		pkl.dump((background_test_num,blacklist_test_num),f)
  		print("test num save....(%d, %d)"%(background_test_num,blacklist_test_num))
