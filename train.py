@@ -88,15 +88,16 @@ w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_ran
 
 b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
-'''
+
 z1 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1)))
 z1 = tf.sparse_tensor_dense_matmul(support,z1)
+
 '''
 sup_sum = tf.sparse_reduce_sum(support,axis=1)
-sub = w1*tf.transpose(x)
+sub = sup_sum*tf.transpose(x)
 z1 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,x))-tf.transpose(sub)
 z1 = tf.matmul(z1,w1)
-
+'''
 activate = tf.nn.relu(z1+b1)
 
 b2_shape = (3)
@@ -107,15 +108,15 @@ w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_ran
 
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
-'''
+
 z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2)))
 z2 = tf.sparse_tensor_dense_matmul(support,z2)
 '''
 sup_sum = tf.sparse_reduce_sum(support,axis=1)
-sub = w1*tf.transpose(x)
-z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,x))-tf.transpose(sub)
+sub = sup_sum*tf.transpose(activate)
+z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,activate))-tf.transpose(sub)
 z2 = tf.matmul(z2,w2)
-
+'''
 predict = tf.nn.softmax(z2+b2)
 
 
