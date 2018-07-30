@@ -128,7 +128,7 @@ train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss
 
 init = tf.initialize_all_variables()
 sess = tf.Session()
-#sess.run(init)
+sess.run(init)
 epochs = 500
 max_f1 = 0.0
 
@@ -140,15 +140,6 @@ for j in range(18):
 	with open("fin_pre/"+labels_for_test_save_filename+str(j),'r') as f:
 		labels_for_test = pkl.load(f)
 		print("labels for test load done")
-	w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
-
-	b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
-
-	w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
-
-	b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
-
-	sess.run(init)
 
 	for i in range(epochs):
 		#t = time.time()
@@ -222,9 +213,23 @@ for j in range(18):
 
 	with open("fin_pre/fin_w1_"+str(j),'w+') as f:
 		pkl.dump(w_1,f)
+	b_1 = sess.run(b1)
+	with open("fin_pre/fin_b1_"+str(j),'w+') as f:
+		pkl.dump(b_1,f)
 
 	with open("fin_pre/fin_w2_"+str(j),'w+') as f:
 		pkl.dump(w_2,f)
+	b_2 = sess.run(b2)
+	with open("fin_pre/fin_b2_"+str(j),'w+') as f:
+		pkl.dump(b_2,f)
+
+	w1 = tf.random_uniform(w1_shape, minval=-init_range, maxval=init_range, dtype=tf.float32)
+
+	b1 = tf.zeros(b1_shape,dtype=tf.float32)
+
+	w2 = tf.random_uniform(w2_shape, minval=-init_range, maxval=init_range, dtype=tf.float32)
+
+	b2 = tf.zeros(b2_shape,dtype=tf.float32)
 	
 	fin_pre = sess.run(predict,feed_dict={support:sparse_martix,x:features})
 	fin_pre = sess.run(tf.argmax(fin_pre,1))
