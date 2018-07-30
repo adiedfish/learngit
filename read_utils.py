@@ -534,11 +534,11 @@ def build_one_hot_labels_for_test(ip_num):
 	background_test_num = 0
 	background_test_cout = 0
 
-	blacklist_test_num = 100
+	blacklist_test_num = 500
 	blacklist_test_cout = 0
 
 	#实际是所有非blacklist的异常流量ip
-	spam_test_num = 5
+	spam_test_num = 0
 	spam_test_cout = 0
 
 	row_cout = 0
@@ -555,6 +555,7 @@ def build_one_hot_labels_for_test(ip_num):
  			if labels[i][1] == 1 and blacklist_test_cout < blacklist_test_num:
  				one_hot_labels_for_test[i][1] = 1
  				blacklist_test_cout += 1
+ 			'''
  			elif blacklist_test_cout >= blacklist_test_num:
  				with open(save_path_of_labels+labels_for_test_save_filename+str(file_cout),'w+') as f:
  					pkl.dump(one_hot_labels_for_test,f)
@@ -562,6 +563,7 @@ def build_one_hot_labels_for_test(ip_num):
  				file_cout += 1
  				one_hot_labels_for_test = np.zeros((ip_num,3))
  				blacklist_test_cout = 0
+ 			'''
  			'''
  			if labels[i][2] == 1 and spam_test_cout < spam_test_num:
  				one_hot_labels_for_test[i][2] = 1
@@ -574,7 +576,7 @@ def build_one_hot_labels_for_test(ip_num):
  				sys.stdout.flush()
  		sys.stdout.write("%d rows done"%row_cout)
  		sys.stdout.flush()
- 	'''
+ 	
  	with open(labels_for_test_save_filename,'w+') as f:
  		pkl.dump(one_hot_labels_for_test,f)
  		print("\ndone(labels for test)")
@@ -586,7 +588,6 @@ def build_one_hot_labels_for_test(ip_num):
  	with open("spam_cout",'w+') as f:
  		pkl.dump(spam_test_cout,f)
  		print("spam_cout save...(%d)"%spam_test_cout)
- 	'''
  	with open("test_num",'w+') as f:
  		pkl.dump((background_test_num,blacklist_test_num),f)
  		print("test num save....(%d, %d)"%(background_test_num,blacklist_test_num))
