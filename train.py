@@ -209,10 +209,10 @@ fin_pre = sess.run(predict,feed_dict={support:sparse_martix,x:features})
 fin_pre = sess.run(tf.argmax(fin_pre,1))
 
 save_path = "fin_pre/"
-index = "1"
-with open(savepath+"fin_pre"+index,'w+') as f:
+index = "0"
+with open(savepath+"fin_pre_"+index,'w+') as f:
 	pkl.dump(fin_pre,f)
-	
+
 
 
 
