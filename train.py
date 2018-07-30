@@ -199,7 +199,7 @@ for j in range(18):
 			f1_soc = 0
 		if f1_soc > max_f1:
 			max_f1 = f1_soc
-		print(f1_soc)
+		print("%d       %d"%(f1_soc,j))
 		print("-------------------------------------")
 
 	print("w1 :  ---\n")
