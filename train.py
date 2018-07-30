@@ -88,7 +88,6 @@ w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_ran
 
 b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
-
 z1 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1)))
 #z1 = tf.sparse_tensor_dense_matmul(support,z1)
 
@@ -107,7 +106,6 @@ init_range = np.sqrt(6.0/(w2_shape[0]+w2_shape[1]))
 w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
 
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
-
 
 z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2)))
 #z2 = tf.sparse_tensor_dense_matmul(support,z2)
@@ -142,6 +140,14 @@ for j in range(18):
 	with open("fin_pre/"+labels_for_test_save_filename+str(j),'r') as f:
 		labels_for_test = pkl.load(f)
 		print("labels for test load done")
+	w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
+
+	b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
+
+	w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
+
+	b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
+
 	for i in range(epochs):
 		#t = time.time()
 
@@ -199,7 +205,7 @@ for j in range(18):
 			f1_soc = 0
 		if f1_soc > max_f1:
 			max_f1 = f1_soc
-		print("%d       %d"%(f1_soc,j))
+		print("%.5f       %d"%(f1_soc,j))
 		print("-------------------------------------")
 
 	print("w1 :  ---\n")
