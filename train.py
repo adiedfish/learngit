@@ -128,7 +128,7 @@ train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss
 
 init = tf.initialize_all_variables()
 sess = tf.Session()
-sess.run(init)
+#sess.run(init)
 epochs = 500
 max_f1 = 0.0
 
@@ -147,6 +147,8 @@ for j in range(18):
 	w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
 
 	b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
+
+	sess.run(init)
 
 	for i in range(epochs):
 		#t = time.time()
