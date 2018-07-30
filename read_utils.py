@@ -534,7 +534,7 @@ def build_one_hot_labels_for_test(ip_num):
 	background_test_num = 0
 	background_test_cout = 0
 
-	blacklist_test_num = 500
+	blacklist_test_num = 200
 	blacklist_test_cout = 0
 
 	#实际是所有非blacklist的异常流量ip

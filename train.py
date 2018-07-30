@@ -63,7 +63,7 @@ with open(labels_save_filename,'r') as f:
 	labels_all = pkl.load(f)
 	print("labels load done")
 
-with open("fin_pre/"+labels_for_test_save_filename+str(j),'r') as f:
+with open(labels_for_test_save_filename,'r') as f:
 	labels_for_test = pkl.load(f)
 	print("labels for test load done")
 
@@ -125,7 +125,7 @@ loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, lab
 #权值已经够小了不用正则项约束
 factor = 0.005
 loss_1 = loss + tf.reduce_sum(predict[:,1])/len(features)*factor
-train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_1)
+train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
 init = tf.initialize_all_variables()
 sess = tf.Session()
@@ -207,6 +207,7 @@ print(w_2)
 print("Optimization Finished")
 print("max f1:%.4f"%max_f1)
 
+'''
 with open("fin_pre/fin_w1_"+str(j),'w+') as f:
 	pkl.dump(w_1,f)
 b_1 = sess.run(b1)
@@ -223,8 +224,7 @@ fin_pre = sess.run(tf.argmax(fin_pre,1))
 
 with open("fin_pre/fin_pre_"+str(j),'w+') as f:
 	pkl.dump(fin_pre,f)
-
-
+'''
 
 
 
