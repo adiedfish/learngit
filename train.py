@@ -128,7 +128,7 @@ w3 = tf.Variable(tf.random_uniform(w3_shape, minval=-init_range, maxval=init_ran
 
 b3 = tf.Variable(tf.zeros(b3_shape,dtype=tf.float32))
 
-z3 = tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w3))
+z3 = tf.matmul(activate, w3)
 
 predict = tf.nn.softmax(z3+b3)
 
