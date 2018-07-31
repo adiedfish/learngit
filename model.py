@@ -25,7 +25,7 @@ class Model(object):
 
 		self.learning_rate = 0.001
 		self.epochs = 500
-		self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
+		self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
 
 	def build_layers(self,layers):
 		for layer in layers:

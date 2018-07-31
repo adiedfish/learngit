@@ -25,7 +25,7 @@ class gcn_layer(layer):
 		init_range = np.sqrt(6.0/(w_shape[0]+w_shape[1]))
 		self.w = tf.Variable(tf.random_uniform(w_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
 		self.b = tf.Variable(tf.zeros(b_shape,dtype=tf.float32))
-		self.support = tf.sparse_placeholder(tf.float32)
+		self.support = support
 		self.activate_fun_num = activate_fun_num
 
 	def z(activate):
