@@ -89,7 +89,7 @@ w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_ran
 
 b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
-z1 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1)))
+z1 = support,tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1))
 #z1 = tf.sparse_tensor_dense_matmul(support,z1)
 
 '''
@@ -108,7 +108,7 @@ w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_ran
 
 b2 = tf.Variable(tf.zeros(b2_shape,dtype=tf.float32))
 
-z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2)))
+z2 = tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w2))
 #z2 = tf.sparse_tensor_dense_matmul(support,z2)
 '''
 sup_sum = tf.sparse_reduce_sum(support,axis=1)
@@ -125,7 +125,7 @@ loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, lab
 #权值已经够小了不用正则项约束
 factor = 0.005
 loss_1 = loss + tf.reduce_sum(predict[:,1])/len(features)*factor
-train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
+train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_1)
 
 init = tf.initialize_all_variables()
 sess = tf.Session()
