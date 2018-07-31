@@ -100,7 +100,7 @@ z1 = tf.matmul(z1,w1)
 '''
 activate = tf.nn.relu(z1+b1)
 
-hidden_class = 5
+hidden_class = 3
 b2_shape = (hidden_class)
 w2_shape = (hidden_num,hidden_class)
 init_range = np.sqrt(6.0/(w2_shape[0]+w2_shape[1]))
