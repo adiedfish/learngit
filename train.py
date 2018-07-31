@@ -89,7 +89,7 @@ w1 = tf.Variable(tf.random_uniform(w1_shape, minval=-init_range, maxval=init_ran
 
 b1 = tf.Variable(tf.zeros(b1_shape,dtype=tf.float32))
 
-z1 = support,tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1))
+z1 = tf.sparse_tensor_dense_matmul(support,tf.matmul(x, w1))
 #z1 = tf.sparse_tensor_dense_matmul(support,z1)
 
 '''
@@ -100,8 +100,9 @@ z1 = tf.matmul(z1,w1)
 '''
 activate = tf.nn.relu(z1+b1)
 
-b2_shape = (3)
-w2_shape = (hidden_num,3)
+hidden_class = 5
+b2_shape = (hidden_class)
+w2_shape = (hidden_num,hidden_class)
 init_range = np.sqrt(6.0/(w2_shape[0]+w2_shape[1]))
 
 w2 = tf.Variable(tf.random_uniform(w2_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
@@ -116,7 +117,21 @@ sub = sup_sum*tf.transpose(activate)
 z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,activate))-tf.transpose(sub)
 z2 = tf.matmul(z2,w2)
 '''
-predict = tf.nn.softmax(z2+b2)
+activate = tf.nn.relu(z2+b2)
+
+out_class = 3
+b3_shape = (out_class)
+w3_shape = (hidden_class,out_class)
+init_range = np.sqrt(6.0/(w2_shape[0]+w2_shape[1]))
+
+w3 = tf.Variable(tf.random_uniform(w3_shape, minval=-init_range, maxval=init_range, dtype=tf.float32))
+
+b3 = tf.Variable(tf.zeros(b3_shape,dtype=tf.float32))
+
+z3 = tf.sparse_tensor_dense_matmul(support,tf.matmul(activate, w3))
+
+predict = tf.nn.softmax(z3+b3)
+
 
 
 learning_rate = 0.005
