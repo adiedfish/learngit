@@ -117,6 +117,8 @@ sub = sup_sum*tf.transpose(activate)
 z2 = tf.sparse_tensor_dense_matmul(support,tf.sparse_tensor_dense_matmul(support,activate))-tf.transpose(sub)
 z2 = tf.matmul(z2,w2)
 '''
+predict = tf.nn.softmax(z2+b2)
+'''
 activate = tf.nn.relu(z2+b2)
 
 out_class = 3
@@ -132,7 +134,7 @@ z3 = tf.matmul(activate, w3)
 
 predict = tf.nn.softmax(z3+b3)
 
-
+'''
 
 learning_rate = 0.005
 lmbda = 5.0
@@ -140,7 +142,7 @@ loss = tf.reduce_sum(tf.nn.softmax_cross_entropy_with_logits(logits=predict, lab
 #权值已经够小了不用正则项约束
 factor = 0.005
 loss_1 = loss + tf.reduce_sum(predict[:,1])/len(features)*factor
-train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss_1)
+train_step = tf.train.AdamOptimizer(learning_rate = learning_rate).minimize(loss)
 
 init = tf.initialize_all_variables()
 sess = tf.Session()
